@@ -24,6 +24,7 @@ public class LearnTopicActivity2 extends BaseActivity implements View.OnClickLis
         TextView tvTitle = findViewById(R.id.tv_title);
         tvTitle.setVisibility(View.GONE);
         //123
+        //456
     }
 
     @Override
