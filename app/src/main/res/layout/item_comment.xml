@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:round_image="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="#fff"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="5dp"
+    android:layout_marginStart="5dp"
+    android:paddingStart="@dimen/card_corner_10"
+    android:paddingEnd="@dimen/card_corner_10"
+    android:orientation="vertical">
+    <View
+        android:id="@+id/view_corner_top"
+        android:layout_width="wrap_content"
+        android:layout_height="5dp"
+        android:layout_marginEnd="@dimen/card_corner_10"
+        android:visibility="visible"
+        android:background="#e1e1e1" />
+    <View
+        android:id="@+id/view_divider_top"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginEnd="@dimen/card_corner_10"
+        android:visibility="visible"
+        android:background="#e1e1e1" />
+    <LinearLayout
+        android:id="@+id/layout_comment"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <nauq.mal.com.formapp.views.RoundedConnerImageView
+            android:id="@+id/imv_ava_cmt"
+            android:layout_width="@dimen/height_avatar_50"
+            android:layout_height="@dimen/height_avatar_50"
+            android:background="@drawable/bg_avatar"
+            android:padding="7dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_ava"
+            round_image:corner_radius="100dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:paddingStart="@dimen/card_corner_10"
+            android:paddingEnd="@dimen/card_corner_10"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_fullname_cmt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:textColor="#000"
+                    android:textSize="@dimen/text_small_12"
+                    android:text="@string/txt_name_demo"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="1dp"/>
+                <nauq.mal.com.formapp.views.CustomFontTextView
+                    android:id="@+id/tv_date_create"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:paddingStart="@dimen/card_corner_10"
+                    android:paddingEnd="@dimen/card_corner_10"
+                    android:textColor="#000"
+                    android:textSize="@dimen/text_small_12"
+                    android:text="@string/txt_time_create"
+                    />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tv_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:singleLine="true"
+                android:textColor="#000"
+                android:textSize="@dimen/text_small_12"
+                android:text="@string/txt_explain_ans" />
+            <LinearLayout
+                android:id="@+id/layout_like_cmt"
+                android:layout_width="70dp"
+                android:layout_marginTop="-20dp"
+                android:layout_gravity="end"
+                android:paddingStart="@dimen/card_corner_10"
+                android:paddingEnd="@dimen/card_corner_10"
+                android:layout_height="70dp">
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="1dp"/>
+                <ImageView
+                    android:id="@+id/img_like_cmt"
+                    android:layout_gravity="center"
+                    android:contentDescription="@null"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/ic_like_cmt_def"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

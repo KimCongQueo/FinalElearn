@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shap_bg_navs"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/imv_nav_left"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_nav_btn"
+        android:contentDescription="@null"
+        android:padding="16dp"
+        android:src="@drawable/ic_back_blue" />
+
+    <TextView
+        android:id="@+id/tv_options"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/card_corner_10"
+        android:text="@string/txt_voca"
+        android:gravity="center_vertical"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/imv_arrow_down"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_nav_btn"
+        android:contentDescription="@null"
+        android:padding="16dp"
+        android:src="@drawable/ic_arrow_down"
+        android:visibility="gone" />
+
+    <nauq.mal.com.formapp.views.CustomFontTextView
+        android:id="@+id/tv_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="Title"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        font:fontText="fonts/sf_pro_display_medium.otf" />
+
+
+    <ImageView
+        android:id="@+id/imv_nav_right2"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_nav_btn"
+        android:padding="@dimen/padding_nav_icon_right"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/imv_nav_right"
+        android:layout_width="@dimen/nav_height"
+        android:layout_height="@dimen/nav_height"
+        android:background="@drawable/bg_nav_btn"
+        android:padding="@dimen/padding_nav_icon_right"
+        android:visibility="gone" />
+</LinearLayout>

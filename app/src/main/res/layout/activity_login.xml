@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:font="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/layout_root"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_app" />
+
+        <nauq.mal.com.formapp.views.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:text="@string/txt_copy_right"
+            android:textColor="#2096B5"
+            android:textSize="@dimen/text_small_13" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="-40dp"
+            android:src="@drawable/logo_app" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="@dimen/margin_top_logo_login"
+            android:orientation="vertical">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/edt_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_user_name"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:hint="@string/txt_username"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="@dimen/text_small_14"
+                app:met_baseColor="@color/text_color"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelTextColor="#0BB2CA"
+                app:met_primaryColor="#0BB2CA"
+                app:met_textColorHint="@color/hint_color"
+                app:met_underlineColor="#0BB2CA" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/edt_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/edittext_margin_top"
+                android:drawableLeft="@drawable/ic_password"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:hint="@string/txt_password"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="@dimen/text_small_14"
+                app:met_baseColor="@color/text_color"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelTextColor="#0BB2CA"
+                app:met_primaryColor="#0BB2CA"
+                app:met_textColorHint="@color/hint_color"
+                app:met_underlineColor="#0BB2CA" />
+
+
+            <nauq.mal.com.formapp.views.CustomFontButton
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/margin_top_btn_login"
+                android:background="@drawable/bg_button"
+                android:gravity="center"
+                android:text="@string/txt_login"
+                android:textColor="#fff"
+                android:textSize="@dimen/text_small_14"
+                android:textStyle="bold"
+                android:visibility="visible" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+                <nauq.mal.com.formapp.views.CustomFontTextView
+                    android:id="@+id/tv_forgot_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:text="@string/txt_forgot_password"
+                    android:textColor="@color/sl_text_forgot_password"
+                    android:textSize="@dimen/text_small_13" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="0dp"/>
+                <nauq.mal.com.formapp.views.CustomFontTextView
+                    android:id="@+id/tv_sign_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/txt_sign_up"
+                    android:textColor="@color/sl_text_forgot_password"
+                    android:textSize="@dimen/text_small_13" />
+            </LinearLayout>
+            <nauq.mal.com.formapp.views.CustomFontButton
+                android:id="@+id/btn_login_google"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/shape_gg_login"
+                android:gravity="center"
+                android:text="@string/txt_login_google"
+                android:textColor="#fff"
+                android:textSize="@dimen/text_small_14"
+                android:textStyle="bold"
+                android:visibility="visible" />
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

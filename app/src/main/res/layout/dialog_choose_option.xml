@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:round_image="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="100dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/text_large_20"
+        android:text="@string/txt_u_are_learning"
+        android:textAllCaps="false"
+        android:textColor="#000"
+        android:textSize="@dimen/text_size_22" />
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginEnd="@dimen/card_corner_19"
+        android:layout_marginStart="@dimen/card_corner_19"
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <nauq.mal.com.formapp.views.RoundedConnerImageView
+                android:id="@+id/imv_ava_post"
+                android:layout_width="140dp"
+                android:layout_height="100dp"
+                android:background="@drawable/bg_avatar"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_american"
+                round_image:corner_radius="5dp" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="-40dp"
+                android:layout_marginStart="-30dp"
+                android:layout_toEndOf="@id/imv_ava_post"
+                android:background="#fff"
+                android:rotation="15" />
+
+            <TextView
+                android:id="@+id/tv_voca"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_corner_10"
+                android:layout_toEndOf="@id/imv_ava_post"
+                android:text="@string/txt_voca"
+                android:textAllCaps="false"
+                android:textColor="#000"
+                android:textSize="@dimen/text_medium_16"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/tv_voca"
+                android:layout_below="@+id/tv_voca"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/txt_descrip_voca"
+                android:textAllCaps="false"
+                android:textSize="@dimen/text_medium_16" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginEnd="@dimen/card_corner_19"
+        android:layout_marginStart="@dimen/card_corner_19"
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <nauq.mal.com.formapp.views.RoundedConnerImageView
+                android:id="@+id/imv_grammar"
+                android:layout_width="140dp"
+                android:layout_height="100dp"
+                android:background="@drawable/bg_avatar"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_american"
+                round_image:corner_radius="5dp" />
+
+            <View
+                android:id="@+id/view_grammar"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="-40dp"
+                android:layout_marginStart="-30dp"
+                android:layout_toEndOf="@id/imv_grammar"
+                android:background="#fff"
+                android:rotation="15" />
+
+            <TextView
+                android:id="@+id/tv_grammar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_corner_10"
+                android:layout_toEndOf="@id/view_grammar"
+                android:text="@string/txt_grammar1"
+                android:textAllCaps="false"
+                android:textColor="#000"
+                android:textSize="@dimen/text_medium_16"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/tv_grammar"
+                android:layout_below="@+id/tv_grammar"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/txt_descrip_grammar"
+                android:textAllCaps="false"
+                android:textSize="@dimen/text_medium_16" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginEnd="@dimen/card_corner_19"
+        android:layout_marginStart="@dimen/card_corner_19"
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <nauq.mal.com.formapp.views.RoundedConnerImageView
+                android:id="@+id/imv_practice"
+                android:layout_width="140dp"
+                android:layout_height="100dp"
+                android:background="@drawable/bg_avatar"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_american"
+                round_image:corner_radius="5dp" />
+
+            <View
+                android:id="@+id/view_practice"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="-40dp"
+                android:layout_marginStart="-30dp"
+                android:layout_toEndOf="@id/imv_practice"
+                android:background="#fff"
+                android:rotation="15" />
+
+            <TextView
+                android:id="@+id/tv_practice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_corner_10"
+                android:layout_toEndOf="@id/view_practice"
+                android:text="@string/txt_practice"
+                android:textAllCaps="false"
+                android:textColor="#000"
+                android:textSize="@dimen/text_medium_16"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/tv_practice"
+                android:layout_below="@+id/tv_practice"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/txt_descrip_practice"
+                android:textAllCaps="false"
+                android:textSize="@dimen/text_medium_16" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

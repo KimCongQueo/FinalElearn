@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:font="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/app_bar_main">
+
+    <FrameLayout
+        android:id="@+id/frame_main"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#fff" />
+
+    <LinearLayout
+        android:id="@+id/tab_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F9F9F9"
+        android:orientation="horizontal"
+        android:paddingBottom="3dp"
+        android:paddingTop="7dp">
+
+        <LinearLayout
+            android:id="@+id/tab_home"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/margin_top_btn_login"
+                android:layout_height="@dimen/margin_top_btn_login"
+                android:src="@drawable/bg_tab_home" />
+
+            <nauq.mal.com.formapp.views.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/txt_home"
+                android:textColor="@color/sl_text_tab"
+                android:textSize="@dimen/text_small_12"
+                font:fontText="fonts/sf_pro_display_regular.otf" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_grammar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/margin_top_btn_login"
+                android:layout_height="@dimen/margin_top_btn_login"
+                android:src="@drawable/bg_tab_grammar" />
+
+            <nauq.mal.com.formapp.views.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/txt_grammar"
+                android:textColor="@color/sl_text_tab"
+                android:textSize="@dimen/text_small_12"
+                font:fontText="fonts/sf_pro_display_regular.otf" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_toeic"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/margin_top_btn_login"
+                android:layout_height="@dimen/margin_top_btn_login"
+                android:src="@drawable/bg_tab_test" />
+
+            <nauq.mal.com.formapp.views.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/txt_toeic_test"
+                android:textColor="@color/sl_text_tab"
+                android:textSize="@dimen/text_small_12"
+                font:fontText="fonts/sf_pro_display_regular.otf" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/tab_dictionary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/margin_top_btn_login"
+                android:layout_height="@dimen/margin_top_btn_login"
+                android:src="@drawable/bg_tab_dictionary" />
+
+            <nauq.mal.com.formapp.views.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/txt_dic"
+                android:textColor="@color/sl_text_tab"
+                android:textSize="@dimen/text_small_12"
+                font:fontText="fonts/sf_pro_display_regular.otf" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

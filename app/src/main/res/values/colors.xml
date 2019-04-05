@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#009BCC</color>
+    <color name="colorPrimaryDark">#009BCC</color>
+    <color name="colorAccent">#009BCC</color>
+    <color name="tab_select">#fff</color>
+    <color name="select_color">#c03a2b</color>
+    <color name="text_color">#414141</color>
+    <color name="text_color1">#000</color>
+    <color name="icon_color">#0f9ac4</color>
+    <color name="text_select">#83fc0a</color>
+    <color name="bg_color_page">#F6F6F6</color>
+    <color name="text_color_bule">#4A90E2</color>
+    <color name="hint_color">#cfcfcf</color>
+    <color name="page_color">#dbdbdb</color>
+    <color name="line_color">#e1e1e1</color>
+    <color name="text_color_grey">#535A67</color>
+</resources>
