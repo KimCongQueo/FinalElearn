@@ -5,11 +5,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import nauq.mal.com.formapp.R;
+import nauq.mal.com.formapp.views.CustomChooseOptionDialog;
 
 public class LearnTopicActivity2 extends BaseActivity implements View.OnClickListener {
     private TextView tvOptions;
     private ImageView imvArrow;
-    private TextView tvTitle;
+
     @Override
     protected int initLayout() {
         return R.layout.activity_learn_topic_2;
@@ -21,7 +22,7 @@ public class LearnTopicActivity2 extends BaseActivity implements View.OnClickLis
         tvOptions.setVisibility(View.VISIBLE);
         imvArrow = findViewById(R.id.imv_arrow_down);
         imvArrow.setVisibility(View.VISIBLE);
-        tvTitle = findViewById(R.id.tv_title);
+        TextView tvTitle = findViewById(R.id.tv_title);
         tvTitle.setVisibility(View.GONE);
     }
 
@@ -37,7 +38,8 @@ public class LearnTopicActivity2 extends BaseActivity implements View.OnClickLis
             case R.id.tv_options:
                 //khonong break để dùng chung function với arrow down
             case R.id.imv_arrow_down:
-
+                CustomChooseOptionDialog dialog = new CustomChooseOptionDialog(this);
+                dialog.show();
                 break;
         }
     }
