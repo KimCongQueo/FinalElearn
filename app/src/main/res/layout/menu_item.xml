@@ -28,7 +28,7 @@
             android:src="@drawable/ic_logout"
             android:padding="5dp"/>
 
-        <nauq.mal.com.formapp.views.CustomFontTextView
+        <TextView
             android:id="@+id/tv_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,8 +36,7 @@
             android:layout_marginLeft="10dp"
             android:text="Mã nhân viên: NV-007"
             android:textColor="@color/text_color_grey"
-            android:textSize="@dimen/text_small_13"
-            font:fontText="fonts/sf_pro_display_regular.otf" />
+            android:textSize="@dimen/text_small_13"/>
     </LinearLayout>
 
 </LinearLayout>

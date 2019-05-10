@@ -1,15 +1,22 @@
 package nauq.mal.com.formapp.fragments.home;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -19,17 +26,24 @@ import java.util.ArrayList;
 import nauq.mal.com.formapp.R;
 import nauq.mal.com.formapp.activities.AddQuesActivity;
 import nauq.mal.com.formapp.activities.CommentActivity;
+import nauq.mal.com.formapp.activities.EditQuesActivity;
+import nauq.mal.com.formapp.activities.MainActivity;
 import nauq.mal.com.formapp.adapters.PostAdapter;
 import nauq.mal.com.formapp.api.ApiListener;
+import nauq.mal.com.formapp.api.models.BaseOutput;
 import nauq.mal.com.formapp.api.models.GetNewfeedOutput;
 import nauq.mal.com.formapp.fragments.BaseFragment;
 import nauq.mal.com.formapp.models.PostItem;
 import nauq.mal.com.formapp.tasks.BaseTask;
+import nauq.mal.com.formapp.tasks.BookmarkTask;
+import nauq.mal.com.formapp.tasks.DeleteBookmarkTask;
+import nauq.mal.com.formapp.tasks.DislikeTask;
 import nauq.mal.com.formapp.tasks.GetNewFeedTask;
+import nauq.mal.com.formapp.tasks.LikeTask;
 import nauq.mal.com.formapp.utils.Constants;
+import nauq.mal.com.formapp.utils.SharedPreferenceHelper;
 
 public class HomeFragment extends BaseFragment implements View.OnClickListener, ApiListener {
-    private String getNewfeed = "http://f23f6310.ngrok.io/elearn/getNewfeed.php/";
     private RecyclerView rcPost;
     private boolean isLoading;
     private ArrayList<PostItem> mData = new ArrayList<PostItem>();
@@ -38,130 +52,45 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private LinearLayoutManager mLinearLayoutManager;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private PostAdapter mAdapter;
-    private String jsonString;
     private LinearLayout btnAddQuestion;
     private int pastVisiblesItems, visibleItemCount, totalItemCount;
+
     @Override
     protected int initLayout() {
         return R.layout.fragment_home;
     }
-    public static HomeFragment newInstance() {
+
+    public static HomeFragment newInstance(String search) {
         HomeFragment fragment = new HomeFragment();
         return fragment;
     }
+
     @Override
     protected void initComponents() {
         btnAddQuestion = mView.findViewById(R.id.btn_add_ques);
+        if (!SharedPreferenceHelper.getInstance(mContext).get(Constants.PREF_SESSION_ID).equals(Constants.FAKE_TOKEN)) {
+            btnAddQuestion.setVisibility(View.VISIBLE);
+        } else {
+            btnAddQuestion.setVisibility(View.GONE);
+        }
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipeRefreshLayout);
         rcPost = mView.findViewById(R.id.rc_post);
         rcPost.setLayoutManager(mLinearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mAdapter = new PostAdapter(mContext, mData);
         rcPost.setAdapter(mAdapter);
-        loadData();
+//        loadData();
     }
 
     private void loadData() {
-//        showLoading(true);
-        GetNewFeedTasks  asynctask = new GetNewFeedTasks();
-        asynctask.execute(getNewfeed);
-//        mData.add(new PostItem());
-//        mData.add(new PostItem());
-//        mData.add(new PostItem());
-//        mData.add(new PostItem());
-//        mData.add(new PostItem());
-//        mData.add(new PostItem());
-//        mData.add(new PostItem());
-//        mData.add(new PostItem());
-//        mData.add(new PostItem());
-//        mData.add(new PostItem());
-//        mData.add(new PostItem());
-//        mData.add(new PostItem());
-        mAdapter.notifyDataSetChanged();
-    }
-    private class GetNewFeedTasks extends AsyncTask<String, Integer, String> implements ApiListener<GetNewfeedOutput> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showLoading(true);
-        }
-        @Override
-        protected String doInBackground(String... strings) {
-            InputStream is = new InputStream() {
-                @Override
-                public int read() throws IOException {
-                    return 0;
-                }
-            };
-            BufferedReader br;
-            String line = "";
-
-            try{
-                URL url = new URL(getNewfeed);
-                is = url.openStream();
-                jsonString = "";
-                br = new BufferedReader(new InputStreamReader(is));
-
-                while ((line = br.readLine()) !=null){
-                    jsonString += line;
-                }
-                System.out.println(jsonString);;
-            } catch (Exception e){
-                e.printStackTrace();
-            } finally {
-                try {
-                    if(is!=null){
-                        is.close();
-                    }
-                } catch (IOException ioe){
-
-                }
-            }
-            new GetNewFeedTask(mContext, jsonString,  this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            return jsonString;
-        }
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-        }
-
-        @Override
-        public void onConnectionOpen(BaseTask task) {
-
-        }
-
-        @Override
-        public void onConnectionSuccess(BaseTask task, GetNewfeedOutput data) {
-            showLoading(false);
-            if(task instanceof GetNewFeedTask){
-                System.out.println(jsonString);
-                GetNewfeedOutput output = data;
-                if(output != null && output.success){
-                    if(output.result != null){
-
-                        for (PostItem item: output.result){
-                            mData.add(item);
-                        }
-                        mAdapter.notifyDataSetChanged();
-                    }
-                }
-            }
-        }
-
-        @Override
-        public void onConnectionError(BaseTask task, Exception exception) {
-
-        }
+        showLoading(true);
+        new GetNewFeedTask(mContext, mStart, "", this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-//        if(checkAfterDialog){
-//            if(mAdapter.getTextFromDialog().toString() != ""){
-//                Toast.makeText(mContext, mAdapter.getTextFromDialog().toString(), Toast.LENGTH_LONG).show();}
-//    }
-}
-
+        loadData();
+    }
 
 
     @Override
@@ -172,18 +101,54 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             public void onRefresh() {
                 mSwipeRefreshLayout.setRefreshing(false);
                 mStart = 0;
-//                loadData();
+                loadData();
             }
         });
         mAdapter.setOnItemClickListener(new PostAdapter.IOnItemClickedListener() {
             @Override
-            public void onItemClick(int id) {
-                Toast.makeText(mContext, "hihi", Toast.LENGTH_LONG).show();
+            public void onItemClick(String id) {
             }
+
             @Override
-            public void onItemClickComment(int id) {
+            public void onItemClickComment(PostItem postItem) {
                 Intent i = new Intent(getActivity(), CommentActivity.class);
+                i.putExtra(Constants.POST_COMMENT, postItem);
                 startActivity(i);
+            }
+
+            @Override
+            public void onItemDelete(Boolean isDelete) {
+                if (isDelete) {
+                    mStart = 0;
+                    loadData();
+                }
+            }
+
+            @Override
+            public void onItemEdit(Boolean isDelete, int pos) {
+                Intent i = new Intent(mContext, EditQuesActivity.class);
+                i.putExtra("POST", mData.get(pos));
+                startActivity(i);
+            }
+
+            @Override
+            public void onItemLike(String id) {
+                new LikeTask(mContext, id, HomeFragment.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
+
+            @Override
+            public void onItemDisLike(String id) {
+                new DislikeTask(mContext, id, HomeFragment.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
+
+            @Override
+            public void onItemBookmark(String id) {
+                new BookmarkTask(mContext, id, HomeFragment.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
+
+            @Override
+            public void onItemDeleteBookmark(String id) {
+                new DeleteBookmarkTask(mContext, id, "", HomeFragment.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
 
         });
@@ -198,9 +163,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                         if (mData.size() > 0 && mIsLoadMore && !isLoading) {
-                            showLoading(true);
-                            mStart++;
-//                            loadData();
+                            if (mData.size() == (mStart + 1) * 10) {
+                                showLoading(true);
+                                mStart += 1;
+                                loadData();
+                            }
                         }
                     }
                 }
@@ -211,13 +178,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
 //            case R.id.img_report_fb:
 //                CustomFeedbackAndRipDialog dialog = new CustomFeedbackAndRipDialog(mContext);
 //                dialog.show();
             case R.id.btn_add_ques:
                 Intent i = new Intent(getContext(), AddQuesActivity.class);
-                startActivityForResult(i, Constants.ADD_QUES_CODE);
+                getActivity().startActivityForResult(i, Constants.ADD_QUES_CODE);
         }
     }
 
@@ -228,31 +195,59 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     public void onConnectionSuccess(BaseTask task, Object data) {
-        if(task instanceof GetNewFeedTask){
+        if (task instanceof GetNewFeedTask) {
+            GetNewfeedOutput output = (GetNewfeedOutput) data;
+            if (output.success) {
+                mIsLoadMore = output.hasNextPage;
+                if (mStart == 0) {
+                    mData.clear();
+                }
+//                mData.addAll(output.posts);
+                for (int i = 0; i < output.posts.size(); i++) {
+                    mData.add(output.posts.get(i));
+                    ArrayList<File> temp = new ArrayList<>();
+                    for (int j = 0; j < output.posts.get(i).getImgs().size(); j++) {
+                        Uri uri = Uri.parse(Constants.LINK_IMG + output.posts.get(i).getImgs().get(j));
+                        temp.add(new File(uri.getPath()));
+                    }
+                    mData.get(i).setmDataFile(temp);
+                }
+//                for (PostItem item : output.posts) {
+//                    mData.add(item);
+//                }
+                mAdapter.notifyDataSetChanged();
+                showLoading(false);
+            } else {
+                showLoading(false);
+                showAlert(R.string.err_unexpected_exception);
+            }
+            return;
+        }
+        if (task instanceof LikeTask) {
+            BaseOutput output = (BaseOutput) data;
+            if (output.success) {
 
+            }
+        }
+        if (task instanceof BookmarkTask) {
+            BaseOutput output = (BaseOutput) data;
+            if (output.success) {
+
+            }
+        }
+        if (task instanceof DeleteBookmarkTask) {
+            BaseOutput output = (BaseOutput) data;
+            if (output.success) {
+
+            }
         }
     }
 
     @Override
     public void onConnectionError(BaseTask task, Exception exception) {
-        if (task instanceof GetNewFeedTask ) {
-            showLoading(false);
-            showAlert(exception);
-        }
+        showLoading(false);
+        showAlert(exception);
     }
 
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if(requestCode == Constants.ADD_QUES_CODE){
-//            if(requestCode == Activity.RESULT_OK){
-//                PostItem tmp = (PostItem) data.getSerializableExtra(getString(R.string.txt_et_question));
-//                mData.add(0, tmp);
-//                mAdapter.notifyDataSetChanged();
-//            }
-//        }
-//    }
-    
 }
 

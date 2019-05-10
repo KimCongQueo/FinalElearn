@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="60dp"
+    app:cardBackgroundColor="@color/bg_color_page"
+    app:cardCornerRadius="8dp">
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/card_corner_10"
+            android:paddingEnd="@dimen/margin_top_btn_login"
+            android:paddingStart="@dimen/margin_top_btn_login"
+            android:paddingTop="@dimen/card_corner_10"
+            android:text="Edit"
+            android:textColor="#000"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view_divider_top"
+            android:layout_width="150dp"
+            android:layout_height="1dp"
+            android:background="#e1e1e1"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_edit" />
+
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/card_corner_10"
+            android:paddingEnd="@dimen/margin_top_btn_login"
+            android:paddingStart="@dimen/margin_top_btn_login"
+            android:paddingTop="@dimen/card_corner_10"
+            android:text="Delete"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_divider_top" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/layout_edit"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tv_edit">
+
+            <EditText
+                android:id="@+id/et_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="7dp"
+                android:layout_marginStart="7dp"
+                android:background="@drawable/bg_et_dialog1"
+                android:hint="Edit"
+                android:inputType="text|textMultiLine"
+                android:padding="5dp"
+                android:textSize="@dimen/text_medium_15"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <View
+                android:id="@+id/devider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/padding_content_menu"
+                android:background="#e1e1e1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/et_edit" />
+
+            <TextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/card_corner_10"
+                android:text="@string/txt_cancel"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@id/guiline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/devider" />
+
+            <TextView
+                android:id="@+id/tv_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/card_corner_10"
+                android:text="@string/txt_done"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guiline"
+                app:layout_constraintTop_toTopOf="@id/tv_cancel" />
+
+            <View
+                android:id="@+id/guiline"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="#e1e1e1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_done"
+                app:layout_constraintStart_toEndOf="@id/tv_cancel"
+                app:layout_constraintTop_toTopOf="@id/tv_done" />
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

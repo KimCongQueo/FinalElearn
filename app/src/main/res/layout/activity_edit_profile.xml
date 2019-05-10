@@ -39,7 +39,7 @@
                         android:background="@drawable/bg_avatar"
                         android:padding="10dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/ic_ava"
+                        android:src="@drawable/ic_user_def"
                         round_image:corner_radius="@dimen/height_avatar" />
 
                     <ImageView
@@ -50,7 +50,7 @@
                         android:layout_marginBottom="@dimen/margin_edi_profilet_icon"
                         android:layout_marginRight="@dimen/margin_edi_profilet_icon"
                         android:padding="2dp"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:src="@drawable/ic_edit_photo" />
 
                 </FrameLayout>
@@ -99,7 +99,7 @@
                     />
 
                 <nauq.mal.com.formapp.views.CustomFontEditText
-                    android:id="@+id/tv_fullname"
+                    android:id="@+id/et_fullname"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -148,7 +148,7 @@
                     android:layout_weight="1.2"
                     android:orientation="horizontal">
 
-                    <nauq.mal.com.formapp.views.CustomFontEditText
+                    <nauq.mal.com.formapp.views.CustomFontTextView
                         android:id="@+id/tv_birthday"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -215,7 +215,6 @@
                         android:id="@+id/rd_male"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:button="@drawable/bg_checkbox"
                         android:paddingLeft="5dp"
                         android:paddingStart="5dp"
                         android:text="Male"
@@ -226,7 +225,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
-                        android:button="@drawable/bg_checkbox"
                         android:paddingLeft="5dp"
                         android:paddingStart="5dp"
                         android:text="Female"
@@ -263,7 +261,7 @@
                     />
 
                 <nauq.mal.com.formapp.views.CustomFontEditText
-                    android:id="@+id/edt_fullname"
+                    android:id="@+id/et_phone"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -308,8 +306,8 @@
                     android:textSize="@dimen/text_small_13"
                     />
 
-                <nauq.mal.com.formapp.views.CustomFontTextView
-                    android:id="@+id/tv_address"
+                <nauq.mal.com.formapp.views.CustomFontEditText
+                    android:id="@+id/et_address"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -318,6 +316,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_weight="1.2"
                     android:gravity="center_vertical"
+                    android:background="@android:color/transparent"
                     android:paddingRight="15dp"
                     android:hint="@string/txt_input_address"
                     android:maxLength="149"
@@ -353,8 +352,8 @@
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/text_small_13"/>
 
-                <nauq.mal.com.formapp.views.CustomFontTextView
-                    android:id="@+id/tv_email"
+                <nauq.mal.com.formapp.views.CustomFontEditText
+                    android:id="@+id/et_email"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -365,6 +364,7 @@
                     android:paddingRight="15dp"
                     android:singleLine="true"
                     android:hint="@string/txt_input_email"
+                    android:background="@android:color/transparent"
                     android:maxLength="149"
                     android:textColor="@color/text_color_grey"
                     android:textSize="@dimen/text_small_13"

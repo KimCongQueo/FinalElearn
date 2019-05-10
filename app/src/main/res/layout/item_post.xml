@@ -1,127 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    android:id="@+id/cv_post"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res-auto"
     xmlns:round_image="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cv_post"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/card_corner_10"
     android:layout_marginEnd="5dp"
     android:layout_marginStart="5dp"
-    android:layout_marginBottom="@dimen/card_corner_10"
-    font:cardCornerRadius="5dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    font:cardCornerRadius="5dp">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <nauq.mal.com.formapp.views.RoundedConnerImageView
                 android:id="@+id/imv_ava_post"
                 android:layout_width="@dimen/height_logo_login"
                 android:layout_height="@dimen/height_logo_login"
-                android:background="@drawable/bg_avatar"
                 android:layout_marginStart="15dp"
+                android:background="@drawable/bg_avatar"
                 android:padding="7dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_ava"
+                android:src="@drawable/ic_user_def"
                 round_image:corner_radius="100dp" />
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/card_corner_10"
-                android:paddingStart="@dimen/card_corner_10"
+                android:layout_weight="1"
+                android:orientation="vertical"
                 android:paddingEnd="@dimen/card_corner_10"
-                android:orientation="vertical">
+                android:paddingStart="@dimen/card_corner_10">
+
                 <TextView
                     android:id="@+id/tv_fullname_post"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:textColor="#009adc"
-                    android:textSize="@dimen/text_medium_16"
                     android:text="@string/txt_name_demo"
-                    />
+                    android:textColor="#009adc"
+                    android:textSize="@dimen/text_medium_16" />
 
                 <TextView
                     android:id="@+id/tv_date_post"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
+                    android:text="@string/txt_day_ago"
                     android:textColor="#f4c242"
-                    android:textSize="@dimen/text_small_12"
-                    android:text="@string/txt_day_ago" />
+                    android:textSize="@dimen/text_small_12" />
 
             </LinearLayout>
+
             <ImageView
                 android:id="@+id/img_report_fb"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:contentDescription="@null"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="@dimen/card_corner_10"
-                android:src="@drawable/ic_threedot_blue"/>
+                android:contentDescription="@null"
+                android:src="@drawable/ic_threedot_blue" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
-            android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:orientation="vertical">
+            android:paddingTop="5dp">
+
+            <TextView
+                android:id="@+id/tv_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:singleLine="false"
+                android:text="@string/txt_learn_voca"
+                android:textColor="#000"
+                android:textSize="@dimen/text_small_14" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rc_img_post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="@null"
+                    android:paddingEnd="3dp"
+                    android:paddingStart="3dp"
+                    android:src="@drawable/ic_like" />
+
                 <TextView
-                    android:id="@+id/tv_question"
+                    android:id="@+id/tv_num_like"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:singleLine="false"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:textColor="#000"
-                    android:textSize="@dimen/text_small_14"
-                    android:text="@string/txt_learn_voca" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:contentDescription="@null"
-                        android:paddingStart="3dp"
-                        android:paddingEnd="3dp"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_like"/>
-                    <TextView
-                        android:id="@+id/tv_num_like"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="7dp"
-                        android:paddingEnd="7dp"
-                        android:textColor="#e1e1e1"
-                        android:textSize="@dimen/text_small_14"/>
-                    <ImageView
-                        android:contentDescription="@null"
-                        android:paddingStart="3dp"
-                        android:paddingEnd="3dp"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="@dimen/text_medium_15"
-                        android:src="@drawable/ic_comment"/>
-                    <TextView
-                        android:id="@+id/tv_num_comment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="7dp"
-                        android:paddingEnd="7dp"
-                        android:textColor="#e1e1e1"
-                        android:textSize="@dimen/text_small_14"/>
-                </LinearLayout>
+                    android:paddingEnd="7dp"
+                    android:paddingStart="7dp"
+                    android:textColor="#e1e1e1"
+                    android:textSize="@dimen/text_small_14" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="@dimen/text_medium_15"
+                    android:contentDescription="@null"
+                    android:paddingEnd="3dp"
+                    android:paddingStart="3dp"
+                    android:src="@drawable/ic_comment" />
+
+                <TextView
+                    android:id="@+id/tv_num_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="7dp"
+                    android:paddingStart="7dp"
+                    android:textColor="#e1e1e1"
+                    android:textSize="@dimen/text_small_14" />
+            </LinearLayout>
 
 
             <View
@@ -129,87 +146,100 @@
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
                 android:layout_marginTop="7dp"
-                android:visibility="visible"
-                android:background="#e1e1e1" />
+                android:background="#e1e1e1"
+                android:visibility="visible" />
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
                 <LinearLayout
                     android:id="@+id/layout_like"
-                    android:paddingTop="7dp"
-                    android:paddingBottom="@dimen/card_corner_10"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_height="wrap_content">
+                    android:paddingBottom="@dimen/card_corner_10"
+                    android:paddingTop="7dp"
+                    tools:ignore="UseCompoundDrawables">
+
                     <ImageView
-                        android:contentDescription="@null"
-                        android:paddingStart="3dp"
-                        android:paddingEnd="3dp"
                         android:id="@+id/img_like"
                         android:layout_width="17dp"
                         android:layout_height="17dp"
-                        android:background="@drawable/ic_like_cmt_def"/>
+                        android:background="@drawable/ic_like_cmt_def"
+                        android:contentDescription="@null"
+                        android:paddingEnd="3dp"
+                        android:paddingStart="3dp" />
+
                     <TextView
                         android:id="@+id/tv_like"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/txt_like"
                         android:paddingEnd="7dp"
                         android:paddingStart="7dp"
+                        android:text="@string/txt_like"
                         android:textColor="@color/text_color1"
-                        android:textSize="@dimen/text_small_12"/>
+                        android:textSize="@dimen/text_small_12" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/layout_comment"
-                    android:paddingTop="7dp"
-                    android:paddingBottom="@dimen/card_corner_10"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_height="wrap_content">
+                    android:paddingBottom="@dimen/card_corner_10"
+                    android:paddingTop="7dp"
+                    tools:ignore="UseCompoundDrawables">
+
                     <ImageView
-                        android:contentDescription="@null"
-                        android:paddingStart="3dp"
-                        android:paddingEnd="3dp"
                         android:layout_width="17dp"
                         android:layout_height="17dp"
                         android:layout_marginStart="@dimen/text_medium_15"
-                        android:background="@drawable/ic_comment_black"/>
+                        android:background="@drawable/ic_comment_black"
+                        android:contentDescription="@null"
+                        android:paddingEnd="3dp"
+                        android:paddingStart="3dp" />
+
                     <TextView
                         android:id="@+id/tv_comment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/txt_comment"
                         android:paddingEnd="7dp"
                         android:paddingStart="7dp"
+                        android:text="@string/txt_comment"
                         android:textColor="@color/text_color1"
-                        android:textSize="@dimen/text_small_12"/>
+                        android:textSize="@dimen/text_small_12" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/layout_bookmark"
-                    android:paddingTop="7dp"
-                    android:paddingBottom="@dimen/card_corner_10"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_height="wrap_content">
+                    android:paddingBottom="@dimen/card_corner_10"
+                    android:paddingTop="7dp"
+                    tools:ignore="UseCompoundDrawables">
+
                     <ImageView
                         android:id="@+id/img_bookmark"
-                        android:contentDescription="@null"
-                        android:paddingStart="3dp"
-                        android:paddingEnd="3dp"
                         android:layout_width="17dp"
                         android:layout_height="17dp"
                         android:layout_marginStart="@dimen/text_medium_15"
-                        android:background="@drawable/ic_bookmark_default"/>
+                        android:background="@drawable/ic_bookmark_deff"
+                        android:contentDescription="@null"
+                        android:paddingEnd="3dp"
+                        android:paddingStart="3dp" />
+
                     <TextView
                         android:id="@+id/tv_bookmark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/txt_bookmark"
-                        android:paddingStart="7dp"
                         android:paddingEnd="7dp"
+                        android:paddingStart="7dp"
+                        android:text="@string/txt_bookmark"
                         android:textColor="@color/text_color1"
-                        android:textSize="@dimen/text_small_12"/>
+                        android:textSize="@dimen/text_small_12" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

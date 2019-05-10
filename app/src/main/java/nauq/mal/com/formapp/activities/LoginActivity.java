@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -27,22 +28,30 @@ import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 
 import nauq.mal.com.formapp.R;
+import nauq.mal.com.formapp.api.ApiListener;
+import nauq.mal.com.formapp.api.models.GetProfileOutput;
+import nauq.mal.com.formapp.api.models.LoginOutput;
+import nauq.mal.com.formapp.api.objects.LoginInput;
 import nauq.mal.com.formapp.models.User;
+import nauq.mal.com.formapp.tasks.BaseTask;
+import nauq.mal.com.formapp.tasks.GetProfileTask;
+import nauq.mal.com.formapp.tasks.LoginTask;
 import nauq.mal.com.formapp.utils.Constants;
 import nauq.mal.com.formapp.utils.SharedPreferenceHelper;
 
-public class LoginActivity extends BaseActivity implements  View.OnClickListener{
+public class LoginActivity extends BaseActivity implements View.OnClickListener, ApiListener {
     private String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.CALL_PHONE};
     final private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
     private EditText mEdtUsername, mEdtPassword;
-    private Button mBtnLogin, mBtnLoginGg;
+    private Button mBtnLogin;
     private TextView mTvForgotPassword;
-    private FrameLayout layoutRoot;
+    private TextView tvSignup;
+    private LinearLayout layoutRoot;
     private static final int RC_SIGIN_IN = 1;
     private static final String TAG = LoginActivity.class.getName();
     AlertDialog progressDialog;
-    GoogleSignInClient mGoogleSignInClient;
-    private User user;
+    private User mUser;
+
     @Override
     protected int initLayout() {
         return R.layout.activity_login;
@@ -57,16 +66,9 @@ public class LoginActivity extends BaseActivity implements  View.OnClickListener
         mEdtUsername = (EditText) findViewById(R.id.edt_username);
         mEdtPassword = (EditText) findViewById(R.id.edt_password);
         mBtnLogin = (Button) findViewById(R.id.btn_login);
-        mBtnLoginGg = findViewById(R.id.btn_login_google);
         mTvForgotPassword = (TextView) findViewById(R.id.tv_forgot_password);
         layoutRoot = findViewById(R.id.layout_root);
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .requestProfile()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
+        tvSignup = findViewById(R.id.tv_sign_up);
         checkLogin();
     }
 
@@ -77,15 +79,8 @@ public class LoginActivity extends BaseActivity implements  View.OnClickListener
             User user = new Gson().fromJson(userJson, User.class);
             System.out.println(user.toString());
             if (user != null) {
-                if(SharedPreferenceHelper.getInstance(this).get(Constants.LOGIN_GOOGLE) == "true"){
-                mEdtUsername.setText(SharedPreferenceHelper.getInstance(this).get(Constants.PREF_USERNAME));
-                mEdtPassword.setText(SharedPreferenceHelper.getInstance(this).get(Constants.PREF_PASSWORD_NAME));
-                showLoading(true);
-//                new LoginTask(this, new LoginInput(mEdtUsername.getText().toString().trim(), mEdtPassword.getText().toString().trim()), this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            } else {
-                    startActivity(new Intent(this, MainActivity.class));
-                    finish();
-                }
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
             }
         }
     }
@@ -95,8 +90,9 @@ public class LoginActivity extends BaseActivity implements  View.OnClickListener
     protected void addListener() {
         mBtnLogin.setOnClickListener(this);
         mTvForgotPassword.setOnClickListener(this);
-        mBtnLoginGg.setOnClickListener(this);
+        tvSignup.setOnClickListener(this);
     }
+
     private void requestPermissions() {
         if (!hasPermissions(this, PERMISSIONS)) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
@@ -118,25 +114,20 @@ public class LoginActivity extends BaseActivity implements  View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_forgot_password:
-//                startActivity(new Intent(this, ForgotPasswordActivity.class));
+                SharedPreferenceHelper.getInstance(this).clearSharePrefs();
+                SharedPreferenceHelper.getInstance(this).set(Constants.PREF_SESSION_ID, Constants.FAKE_TOKEN);
+                startActivity(new Intent(this, MainActivity.class));
                 break;
             case R.id.btn_login:
                 if (valid()) {
-                    startActivity(new Intent(this, MainActivity.class));
-//                    showLoading(true);
-//                    new LoginTask(this, new LoginInput(mEdtUsername.getText().toString().trim(), mEdtPassword.getText().toString().trim()), this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    showLoading(true);
+                    new LoginTask(this, new LoginInput(mEdtUsername.getText().toString().trim(), mEdtPassword.getText().toString().trim()), this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 }
                 break;
-            case R.id.btn_login_google:
-                showLoading(true);
-                requestSignIn();
+            case R.id.tv_sign_up:
+                startActivity(new Intent(this, ActivityRegister.class));
                 break;
         }
-    }
-
-    private void requestSignIn() {
-        Intent intent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(intent, RC_SIGIN_IN);
     }
 
     public boolean valid() {
@@ -150,54 +141,45 @@ public class LoginActivity extends BaseActivity implements  View.OnClickListener
         }
         return true;
     }
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onActivityResult: ");
-//        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case RC_SIGIN_IN:
-                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-                handleSignInResult(task);
-                break;
+    public void onConnectionOpen(BaseTask task) {
+
+    }
+
+    @Override
+    public void onConnectionSuccess(BaseTask task, Object data) {
+        if (task instanceof LoginTask) {
+            LoginOutput output = (LoginOutput) data;
+            if (output.success) {
+                SharedPreferenceHelper.getInstance(this).set(Constants.PREF_USER_ID, output.userId);
+                SharedPreferenceHelper.getInstance(this).set(Constants.PREF_SESSION_ID, output.token);
+                new GetProfileTask(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            } else {
+                showLoading(false);
+                showAlert(getString(R.string.txt_warning_login_fail));
+            }
+        }
+        if (task instanceof GetProfileTask) {
+            showLoading(false);
+            GetProfileOutput output = (GetProfileOutput) data;
+            if (output.success) {
+                mUser = output.user;
+                SharedPreferenceHelper.getInstance(this).set(Constants.PREF_USERNAME,mUser.getUsername());
+                SharedPreferenceHelper.getInstance(this).set(Constants.PREF_USER_PROFILE, new Gson().toJson(mUser));
+                SharedPreferenceHelper.getInstance(this).set(Constants.PREF_PERSON_NAME, mUser.getName());
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+            } else {
+                showAlert(getString(R.string.txt_warning_login_fail));
+            }
         }
     }
-    private void handleSignInResult(Task<GoogleSignInAccount> task) {
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if(account != null){
-//            user.setAvatar(account.getPhotoUrl()+"");
-//            user.setUserName(account.getDisplayName().toString());
-//            user.setEmail(account.zab());
-//            String personName = account.getDisplayName();
-//            String personGivenName = account.getGivenName();
-//            String personFamilyName = account.getFamilyName();
-//            String personEmail = account.getEmail();
-//            String personId = account.getId();
-//            Uri personPhoto = account.getPhotoUrl();
-            User user = new User();
-            user.setEmail(account.getEmail());
-            user.setAvatar(String.valueOf(account.getPhotoUrl()));
-            user.setFullName(String.valueOf(account.getDisplayName()));
-            SharedPreferenceHelper.getInstance(this).set(Constants.PREF_USER_PROFILE,  new Gson().toJson(user));
-            SharedPreferenceHelper.getInstance(this).set(Constants.EXTRAX_EMAIL, account.getEmail());
-            SharedPreferenceHelper.getInstance(this).set(Constants.PREF_AVATAR, String.valueOf(account.getPhotoUrl()));
-            SharedPreferenceHelper.getInstance(this).set(Constants.PREF_PERSON_NAME, String.valueOf(account.getDisplayName()));
-            SharedPreferenceHelper.getInstance(this).set(Constants.LOGIN_GOOGLE, "true");
-        }
-        try {
-            account = task.getResult(ApiException.class);
-            continueWith(account);
-        } catch (ApiException e) {
-            e.printStackTrace();
-            Snackbar.make(layoutRoot, R.string.login_gg_failed, Snackbar.LENGTH_LONG).show();
 
-        }
-    }
-    private void continueWith(GoogleSignInAccount currentAccount) {
-        showLoading(true);
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-
-        startActivity(intent);
-        finish();
+    @Override
+    public void onConnectionError(BaseTask task, Exception exception) {
+        showLoading(false);
+        showAlert(exception);
     }
 }
 

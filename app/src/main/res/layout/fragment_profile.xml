@@ -37,10 +37,9 @@
                             android:id="@+id/imv_avatar"
                             android:layout_width="@dimen/height_avatar_110"
                             android:layout_height="@dimen/height_avatar_110"
-                            android:background="@drawable/bg_avatar"
                             android:padding="10dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/ic_ava"
+                            android:src="@drawable/ic_user_def"
                             round_image:corner_radius="@dimen/height_avatar" />
 
                         <ImageView

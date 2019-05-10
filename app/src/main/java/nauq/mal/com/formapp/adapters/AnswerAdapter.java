@@ -17,20 +17,23 @@ import nauq.mal.com.formapp.R;
 import nauq.mal.com.formapp.models.Answer;
 import nauq.mal.com.formapp.models.Question;
 
-public class AnswerAdapter extends  RecyclerView.Adapter<AnswerAdapter.ViewHolder> {
+public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.ViewHolder> {
     private Context mContext;
     private IOnItemClickedListener mIOnItemClickedListener;
     private Question question;
     private List<Answer> mData;
     private boolean isEnd;
+
     public void setOnItemClickListener(IOnItemClickedListener listener) {
         mIOnItemClickedListener = listener;
     }
+
     public AnswerAdapter(Context context, List<Answer> question) {
         this.mContext = context;
         this.mData = question;
         this.isEnd = false;
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
@@ -39,29 +42,30 @@ public class AnswerAdapter extends  RecyclerView.Adapter<AnswerAdapter.ViewHolde
 
     @Override
     public void onBindViewHolder(AnswerAdapter.ViewHolder holder, final int position) {
-            Answer item = mData.get(position);
-            holder.tvNumAns.setText((position+1) + "");
-            holder.tvAns.setText(item.getAnswer());
-            if(item.isSelected()){
-                holder.layoutNum.setSelected(true);
-                holder.tvNumAns.setSelected(true);
-                holder.tvAns.setSelected(true);
-                item.setSelected(true);
-            } else {
-                holder.layoutNum.setSelected(false);
-                holder.tvNumAns.setSelected(false);
-                holder.tvAns.setSelected(false);
-                item.setSelected(false);
-            }
+        Answer item = mData.get(position);
+        holder.tvNumAns.setText((position + 1) + "");
+        holder.tvAns.setText(item.getAnswer());
+        if (item.isSelected()) {
+            holder.layoutNum.setSelected(true);
+            holder.tvNumAns.setSelected(true);
+            holder.tvAns.setSelected(true);
+            item.setSelected(true);
+        } else {
+            holder.layoutNum.setSelected(false);
+            holder.tvNumAns.setSelected(false);
+            holder.tvAns.setSelected(false);
+            item.setSelected(false);
+        }
     }
 
     @Override
     public int getItemCount() {
         return mData.size();
     }
-    public boolean isChoose(){
-        for(int i=0;i<mData.size();i++){
-            if(mData.get(i).isSelected()){
+
+    public boolean isChoose() {
+        for (int i = 0; i < mData.size(); i++) {
+            if (mData.get(i).isSelected()) {
                 return true;
             } else {
                 return false;
@@ -73,6 +77,7 @@ public class AnswerAdapter extends  RecyclerView.Adapter<AnswerAdapter.ViewHolde
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvAns, tvNumAns;
         LinearLayout layoutAns, layoutNum;
+
         public ViewHolder(final View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -83,7 +88,7 @@ public class AnswerAdapter extends  RecyclerView.Adapter<AnswerAdapter.ViewHolde
             layoutAns.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(mData.get(getLayoutPosition()).isSelected()){
+                    if (mData.get(getLayoutPosition()).isSelected()) {
                         layoutNum.setSelected(false);
                         tvNumAns.setSelected(false);
                         tvAns.setSelected(false);
@@ -99,6 +104,7 @@ public class AnswerAdapter extends  RecyclerView.Adapter<AnswerAdapter.ViewHolde
 
         }
     }
+
     public interface IOnItemClickedListener {
         void onItemClick(int id);
     }

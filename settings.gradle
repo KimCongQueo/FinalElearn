@@ -1,2 +1,3 @@
 include ':app', ':MaterialLayoutt'
 project(':MaterialLayoutt').projectDir = new File('MaterialLayout')
+include ':FlipView'

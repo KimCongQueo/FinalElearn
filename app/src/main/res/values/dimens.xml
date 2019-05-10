@@ -62,6 +62,7 @@
 
     <dimen name="edittext_margin_top">10dp</dimen>
     <dimen name="height_code">38dp</dimen>
+    <dimen name="height_code_30">30dp</dimen>
     <dimen name="item_offset">0dp</dimen>
     <dimen name="item_offset_work">25dp</dimen>
     <dimen name="height_avatar">84dp</dimen>

@@ -19,8 +19,9 @@ import butterknife.ButterKnife;
 import nauq.mal.com.formapp.R;
 import nauq.mal.com.formapp.models.Answer;
 import nauq.mal.com.formapp.models.Question;
+import nauq.mal.com.formapp.utils.Constants;
 
-public class QuestionAdapter extends  RecyclerView.Adapter<QuestionAdapter.ViewHolder> {
+public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHolder> {
     private Context mContext;
     private IOnItemClickedListener mIOnItemClickedListener;
     private List<Question> mData;
@@ -33,6 +34,7 @@ public class QuestionAdapter extends  RecyclerView.Adapter<QuestionAdapter.ViewH
         this.mContext = context;
         this.mData = Question;
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
@@ -41,39 +43,74 @@ public class QuestionAdapter extends  RecyclerView.Adapter<QuestionAdapter.ViewH
 
     @Override
     public void onBindViewHolder(final QuestionAdapter.ViewHolder holder, final int position) {
-            Question item = mData.get(position);
-            holder.mAdapter = new AnswerAdapter(mContext, item.getArrAns());
-            holder.rcAns.setAdapter(holder.mAdapter);
-            holder.mAdapter.setOnItemClickListener(new AnswerAdapter.IOnItemClickedListener() {
+        Question item = mData.get(position);
+        holder.mAdapter = new AnswerAdapter(mContext, item.getArrAns());
+        holder.rcAns.setAdapter(holder.mAdapter);
+        holder.mAdapter.setOnItemClickListener(new AnswerAdapter.IOnItemClickedListener() {
             @Override
             public void onItemClick(int id) {
-                    holder.mAdapter.notifyDataSetChanged();
+                holder.mAdapter.notifyDataSetChanged();
             }
         });
-            if(item.getQuestion() != ""){
-                holder.tvQuestion.setText(item.getQuestion());
-            }
-            if(item.getImage()!= null) {
-                Picasso.with(mContext).load("" + item.getImage()).into(holder.imgQues);
-            }
+        if (item.getContent() != "") {
+            holder.tvQuestion.setText(item.getContent());
+        }
+        if (item.getImgs() != null && item.getImgs().size() > 0) {
+            holder.imgQues.setVisibility(View.VISIBLE);
+            Picasso.with(mContext).load(Constants.LINK_IMG + item.getImgs().get(0)).into(holder.imgQues);
+        } else {
+            holder.imgQues.setVisibility(View.GONE);
+        }
     }
-    public ArrayList<Boolean> getmAnsChoose(){
+
+    public ArrayList<Boolean> getmAnsChoose() {
         ArrayList<Boolean> mAnsChoose = new ArrayList<Boolean>(mData.size());
-        for(int i=0;i<mData.size();i++){
+        for (int i = 0; i < mData.size(); i++) {
             boolean temp = false;
-            for (int j=0;j<mData.get(i).getArrAns().size();j++){
-               if(mData.get(i).getArrAns().get(j).isSelected()){
-                   temp = true;
-                   break;
-               }
+            for (int j = 0; j < mData.get(i).getArrAns().size(); j++) {
+                if (mData.get(i).getArrAns().get(j).isSelected()) {
+                    temp = true;
+                    break;
+                }
             }
-            if(temp){
+            if (temp) {
                 mAnsChoose.add(true);
-            }
-            else mAnsChoose.add(false);
+            } else mAnsChoose.add(false);
         }
         return mAnsChoose;
     }
+
+    public ArrayList<String> getmAnsChooseString() {
+        ArrayList<String> mAnsChoose = new ArrayList<String>(mData.size());
+        for (int i = 0; i < mData.size(); i++) {
+            String temp = "";
+            for (int j = 0; j < mData.get(i).getArrAns().size(); j++) {
+                if (mData.get(i).getArrAns().get(j).isSelected()) {
+                    temp = mData.get(i).getArrAns().get(j).getAnswer();
+                    break;
+                }
+            }
+            mAnsChoose.add(temp);
+        }
+        return mAnsChoose;
+    }
+
+    public ArrayList<String[]> getmAnsChooseStrings() {
+        ArrayList<String[]> mAnsChoose = new ArrayList<String[]>(mData.size());
+        for (int i = 0; i < mData.size(); i++) {
+            String temp[] = new String[mData.get(i).getArrAns().size()];
+            for (int j = 0; j < mData.get(i).getArrAns().size(); j++) {
+                if (mData.get(i).getArrAns().get(j).isSelected()) {
+                    temp[j] = mData.get(i).getArrAns().get(j).getAnswer();
+                } else {
+                    temp[j] = "";
+                }
+            }
+            mAnsChoose.add(temp);
+        }
+        return mAnsChoose;
+    }
+
     @Override
     public int getItemCount() {
         return mData.size();
@@ -100,6 +137,7 @@ public class QuestionAdapter extends  RecyclerView.Adapter<QuestionAdapter.ViewH
 
         }
     }
+
     public interface IOnItemClickedListener {
         void onItemClick(int id);
     }

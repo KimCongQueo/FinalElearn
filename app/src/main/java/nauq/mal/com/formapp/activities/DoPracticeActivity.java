@@ -1,6 +1,7 @@
 package nauq.mal.com.formapp.activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -16,36 +17,26 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.SerializedName;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
 import nauq.mal.com.formapp.R;
-import nauq.mal.com.formapp.activities.BaseActivity;
 import nauq.mal.com.formapp.adapters.BottomSheetPracticeAdapter;
 import nauq.mal.com.formapp.adapters.QuestionAdapter;
 import nauq.mal.com.formapp.api.ApiListener;
-import nauq.mal.com.formapp.api.models.GetPracticeOutput;
+import nauq.mal.com.formapp.api.models.GetPointOutput;
+import nauq.mal.com.formapp.api.models.GetPracticeOnlyTopicOutput;
 import nauq.mal.com.formapp.models.Answer;
+import nauq.mal.com.formapp.models.Categories;
 import nauq.mal.com.formapp.models.Question;
 import nauq.mal.com.formapp.tasks.BaseTask;
-import nauq.mal.com.formapp.tasks.GetPracticeTask;
-import nauq.mal.com.formapp.utils.HttpHandler;
+import nauq.mal.com.formapp.tasks.GetPracticeMultiTopicTask;
+import nauq.mal.com.formapp.tasks.GetPracticeOnlyTopicTask;
+import nauq.mal.com.formapp.tasks.PostAnswerTask;
+import nauq.mal.com.formapp.utils.Constants;
 
 public class DoPracticeActivity extends BaseActivity implements View.OnClickListener, ApiListener {
-    private String getquestion = "http://f23f6310.ngrok.io/elearn/do_practice.php/";
+    private String getquestion = Constants.API_URL + "/do_practice.php/";
     private ImageView imgBack, imgArrowLeft, imgArrowRight;
     private ImageView imgStop;
     private RecyclerView rcQuestion, rcGeneralityAns;
@@ -62,6 +53,10 @@ public class DoPracticeActivity extends BaseActivity implements View.OnClickList
     private SnapHelper snapHelper;
     private int currentQuestionIndex = 0;
     private TextView tvTotalNumQues, tvPosQuesBelow;
+    private String idNeedGet;
+    private String title;
+    private String matches = "";
+    private ArrayList<String> mDataIdCate = new ArrayList<>();
 
     @Override
     protected int initLayout() {
@@ -70,6 +65,13 @@ public class DoPracticeActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initComponents() {
+        Intent i = getIntent();
+        idNeedGet = (String) i.getSerializableExtra(Constants.id_CHILD_VOCA);
+        mDataIdCate = (ArrayList<String>) i.getSerializableExtra(Constants.DATA_CATEGORIES);
+        if (mDataIdCate != null && mDataIdCate.size() == 1) {
+            idNeedGet = mDataIdCate.get(0);
+        }
+        setTitle(title = (String) i.getSerializableExtra("title"));
         imgBack = findViewById(R.id.imv_nav_left);
         imgStop = findViewById(R.id.img_stop);
         imgArrowLeft = findViewById(R.id.imgArrowLeft);
@@ -89,67 +91,21 @@ public class DoPracticeActivity extends BaseActivity implements View.OnClickList
         snapHelper.attachToRecyclerView(rcQuestion);
 
 
-
     }
 
     private void loadData() {
 //        loadQuestion();
-        GetQuestionAsyncTask asyncTask = new GetQuestionAsyncTask();
-        asyncTask.execute(getquestion);
-        mAdapter.notifyDataSetChanged();
-
-    }
-    class GetQuestionAsyncTask extends AsyncTask<String, Integer, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showLoading(true);
+        showLoading(true);
+        if (idNeedGet != null && !idNeedGet.equals("")) {
+            new GetPracticeOnlyTopicTask(this, idNeedGet, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } else if (mDataIdCate != null && mDataIdCate.size() > 1) {
+            new GetPracticeMultiTopicTask(this, mDataIdCate, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
 
-        @Override
-        protected String doInBackground(String... strings) {
-            InputStream is = new InputStream() {
-                @Override
-                public int read() throws IOException {
-                    return 0;
-                }
-            };
-            BufferedReader br;
-            String line = "";
-
-            try{
-                url = new URL(getquestion);
-                is = url.openStream();
-                br = new BufferedReader(new InputStreamReader(is));
-
-                while ((line = br.readLine()) !=null){
-                    jsonString += line;
-                }
-                System.out.println(jsonString);;
-            } catch (Exception e){
-                e.printStackTrace();
-            } finally {
-                try {
-                    if(is!=null){
-                        is.close();
-                    }
-                } catch (IOException ioe){
-
-                }
-            }
-            new GetPracticeTask(DoPracticeActivity.this, jsonString, DoPracticeActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            return jsonString;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-        }
     }
 
 
-
-        @Override
+    @Override
     protected void addListener() {
         imgBack.setOnClickListener(this);
         imgStop.setOnClickListener(this);
@@ -159,7 +115,7 @@ public class DoPracticeActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(newState == RecyclerView.SCROLL_STATE_IDLE){
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     View centerView = snapHelper.findSnapView(mLinearLayoutManager);
                     int pos = mLinearLayoutManager.getPosition(centerView);
                     currentQuestionIndex = pos;
@@ -178,7 +134,7 @@ public class DoPracticeActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.imv_nav_left:
                 finish();
                 break;
@@ -190,7 +146,7 @@ public class DoPracticeActivity extends BaseActivity implements View.OnClickList
                             .setPositiveButton(R.string.txt_ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-//                                    endPractice();
+                                    endPractice();
                                 }
                             }).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
                         @Override
@@ -206,15 +162,25 @@ public class DoPracticeActivity extends BaseActivity implements View.OnClickList
                 rcQuestion.smoothScrollToPosition(--currentQuestionIndex);
                 break;
             case R.id.imgArrowRight:
-                if (currentQuestionIndex == mData.size()-1)
+                if (currentQuestionIndex == mData.size() - 1)
                     return;
                 rcQuestion.smoothScrollToPosition(++currentQuestionIndex);
                 break;
         }
     }
+
+    private void endPractice() {
+//        ArrayList<String[]> answer = new ArrayList<>(20);
+//        answer = mAdapter.getmAnsChooseStrings();
+        ArrayList<String> answer = new ArrayList<>(20);
+        answer = mAdapter.getmAnsChooseString();
+        showLoading(true);
+        new PostAnswerTask(this, matches, answer, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
     private void loadBottomSheet() {
         rcGeneralityAns.setLayoutManager(new GridLayoutManager(this, 5));
-        for(int i=0;i<mData.size();i++){
+        for (int i = 0; i < mData.size(); i++) {
             ArrayList<Answer> answers = new ArrayList<>();
             answers = mData.get(i).getArrAns();
         }
@@ -234,11 +200,11 @@ public class DoPracticeActivity extends BaseActivity implements View.OnClickList
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 switch (newState) {
                     case BottomSheetBehavior.STATE_HIDDEN:
-                        mAnsBottom = new ArrayList<>();
-                        mAnsBottom = mAdapter.getmAnsChoose();
-                        mBottomAdapter.updateAnswerTable(mAnsBottom);
-                        mBottomAdapter.notifyDataSetChanged();
-                        break;
+//                        mAnsBottom = new ArrayList<>();
+//                        mAnsBottom = mAdapter.getmAnsChoose();
+//                        mBottomAdapter.updateAnswerTable(mAnsBottom);
+//                        mBottomAdapter.notifyDataSetChanged();
+//                        break;
                     case BottomSheetBehavior.STATE_EXPANDED: {
                         mAnsBottom = new ArrayList<>();
                         mAnsBottom = mAdapter.getmAnsChoose();
@@ -253,11 +219,11 @@ public class DoPracticeActivity extends BaseActivity implements View.OnClickList
                         mBottomAdapter.notifyDataSetChanged();
                         break;
                     case BottomSheetBehavior.STATE_DRAGGING:
-                        mAnsBottom = new ArrayList<>();
-                        mAnsBottom = mAdapter.getmAnsChoose();
-                        mBottomAdapter.updateAnswerTable(mAnsBottom);
-                        mBottomAdapter.notifyDataSetChanged();
-                        break;
+//                        mAnsBottom = new ArrayList<>();
+//                        mAnsBottom = mAdapter.getmAnsChoose();
+//                        mBottomAdapter.updateAnswerTable(mAnsBottom);
+//                        mBottomAdapter.notifyDataSetChanged();
+//                        break;
                     case BottomSheetBehavior.STATE_SETTLING:
                         break;
                 }
@@ -274,37 +240,60 @@ public class DoPracticeActivity extends BaseActivity implements View.OnClickList
 
 
     @Override
-        public void onConnectionOpen(BaseTask task) {
+    public void onConnectionOpen(BaseTask task) {
 
-        }
+    }
 
-        @Override
-        public void onConnectionSuccess(BaseTask task, Object data) {
-            if(task instanceof GetPracticeTask){
-                showLoading(false);
-                GetPracticeOutput output = (GetPracticeOutput) data;
-                if (output.success){
-                    if(output.result != null){
-                        for (Question item: output.result){
-                            mData.add(item);
-                        }
-                        if(mData != null) {
-                            tvTotalNumQues.setText("/ "+mData.size()+"");
-                        }
-                        mAdapter.notifyDataSetChanged();
-                        loadBottomSheet();
+    @Override
+    public void onConnectionSuccess(BaseTask task, Object data) {
+        if (task instanceof GetPracticeOnlyTopicTask || task instanceof  GetPracticeMultiTopicTask) {
+            showLoading(false);
+            GetPracticeOnlyTopicOutput output = (GetPracticeOnlyTopicOutput) data;
+//            if (output.success) {
+            for (Question item : output.questions) {
+                mData.add(item);
+            }
+            matches = output.matches;
+            if (mData != null) {
+                tvTotalNumQues.setText("/ " + mData.size() + "");
+                for (int i = 0; i < mData.size(); i++) {
+                    ArrayList<Answer> ans = new ArrayList<>();
+                    for (int j = 0; j < mData.get(i).getAnswers().size(); j++) {
+                        ans.add(new Answer(j, mData.get(i).getAnswers().get(j), false));
                     }
+                    mData.get(i).setArrAns(ans);
                 }
+            }
+            mAdapter.notifyDataSetChanged();
+            loadBottomSheet();
+        }
+//        } else {
+//            showAlert(R.string.err_unexpected_exception);
+//        }
+        if (task instanceof PostAnswerTask) {
+            showLoading(false);
+            GetPointOutput output = (GetPointOutput) data;
+            if (output.success) {
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.app_name)
+                        .setMessage("Your point is " + output.match + "/20")
+                        .setPositiveButton(R.string.txt_ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finish();
+                            }
+                        })
+                        .create().show();
             } else {
                 showAlert(R.string.err_unexpected_exception);
             }
-
         }
+    }
 
 
     @Override
-        public void onConnectionError(BaseTask task, Exception exception) {
+    public void onConnectionError(BaseTask task, Exception exception) {
 
-        }
+    }
 
 }

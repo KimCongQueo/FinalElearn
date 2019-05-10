@@ -13,6 +13,7 @@
     <color name="text_color_bule">#4A90E2</color>
     <color name="hint_color">#cfcfcf</color>
     <color name="page_color">#dbdbdb</color>
+    <color name="page2_color">#d0e2e5</color>
     <color name="line_color">#e1e1e1</color>
     <color name="text_color_grey">#535A67</color>
 </resources>

@@ -9,58 +9,89 @@ import java.io.Serializable;
  */
 
 public class User implements Serializable {
-    @SerializedName("id")
-    private int id;
-    @SerializedName("userName")
-    private String userName = "";
-    @SerializedName("fullName")
-    private String fullName = "";
+    @SerializedName("_id")
+    private String id;
+
+    @SerializedName("username")
+    private String username = "";
+    @SerializedName("password")
+    private String password = "";
+    @SerializedName("account")
+    private String account = "";
+    @SerializedName("name")
+    private String name = "";
     // -1, 1 male, 0 female
     @SerializedName("gender")
-    private int gender = -1;
-    @SerializedName("phoneNumber")
-    private String phoneNumber = "";
+    private boolean gender ;
+    @SerializedName("birthday")
+    private long birthday = -1;
     @SerializedName("address")
     private String address = "";
-    @SerializedName("avatar")
+    @SerializedName("img")
     private String avatar = "";
     @SerializedName("email")
     private String email = "";
-    @SerializedName("birthDate")
-    private long birthDate = -1;
+    @SerializedName("phone")
+    private String phone = "";
 
 
 
     public User(){}
 
-    public User(String userName, String avatar) {
-        this.userName = userName;
-        this.avatar = avatar;
+    public String getId() {
+        return id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public String getUsername() {
+        return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-    public int getGender() {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isGender() {
         return gender;
     }
 
-    public void setGender(int gender) {
+    public void setGender(boolean gender) {
         this.gender = gender;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public long getBirthday() {
+        return birthday;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setBirthday(long birthday) {
+        this.birthday = birthday;
     }
 
     public String getAddress() {
@@ -71,30 +102,6 @@ public class User implements Serializable {
         this.address = address;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public String getAvatar() {
         return avatar;
     }
@@ -103,11 +110,19 @@ public class User implements Serializable {
         this.avatar = avatar;
     }
 
-    public long getBirthDate() {
-        return birthDate;
+    public String getEmail() {
+        return email;
     }
 
-    public void setBirthDate(long birthDate) {
-        this.birthDate = birthDate;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

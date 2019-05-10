@@ -39,9 +39,43 @@ public interface HttpApi {
      * @throws IOException
      * @throws ApiException
      */
+
     Object doHttpPost(@NonNull String requestUrl, JSONObject jsonObject)
             throws ApiException, JSONException, IOException;
+    /**
+     * Execute http request with post method and body is json object (raw)
+     *
+     * @param requestUrl
+     * @param jsonObject
+     * @return The response string
+     * @throws IOException
+     * @throws ApiException
+     */
 
+    Object doHttpPut(@NonNull String requestUrl, JSONObject jsonObject)
+            throws ApiException, JSONException, IOException;
+    /**
+     * Execute http request with get method
+     *
+     * @param requestUrl
+     * @param params
+     * @return The response string
+     * @throws IOException
+     */
+
+    Object doHttpPut(@NonNull String requestUrl, String jsonObject)
+            throws ApiException, JSONException, IOException, ApiException;
+    /**
+     * Execute http request with get method
+     *
+     * @param requestUrl
+     * @param params
+     * @return The response string
+     * @throws IOException
+     */
+
+    Object doHttpDelete(@NonNull String requestUrl, String jsonObject)
+            throws ApiException, JSONException, IOException, ApiException;
     /**
      * Execute http request with post method and body is param pairs (x-www-form-urlencoded)
      *

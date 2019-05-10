@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -20,9 +21,11 @@ import nauq.mal.com.formapp.interfaces.ReturnTextFromDialog;
 import nauq.mal.com.formapp.models.PostItem;
 
 public class CustomChooseOptionDialog extends Dialog implements View.OnClickListener {
-    public CustomChooseOptionDialog(@NonNull Context context) {
-        super(context);
-    }
+    private CardView cvVocabulary;
+    private CardView cvGrammar;
+    private CardView cvPractice;
+    private IOnItemClickedListener mIOnItemClickedListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,27 +39,61 @@ public class CustomChooseOptionDialog extends Dialog implements View.OnClickList
         window.setAttributes(wlp);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         this.getWindow().setAttributes(wlp);
+
         init();
         addListener();
     }
 
+    public CustomChooseOptionDialog(@NonNull Context context) {
+        super(context);
+    }
+
+    public void setmIOnItemClickedListener(IOnItemClickedListener mIOnItemClickedListener) {
+        this.mIOnItemClickedListener = mIOnItemClickedListener;
+    }
 
     private void init() {
-
+        cvVocabulary = findViewById(R.id.cv_voca);
+        cvGrammar = findViewById(R.id.cv_grammar);
+        cvPractice = findViewById(R.id.cv_practice);
     }
-    private void addListener() {
 
+    private void addListener() {
+        cvVocabulary.setOnClickListener(this);
+        cvGrammar.setOnClickListener(this);
+        cvPractice.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
+            case R.id.cv_voca:
+                if(mIOnItemClickedListener != null){
+                    mIOnItemClickedListener.onItemClick(1);
+                }
+                dismiss();
+                break;
+            case R.id.cv_grammar:
+                if(mIOnItemClickedListener != null){
+                    mIOnItemClickedListener.onItemClick(2);
+                }
+                dismiss();
+                break;
+            case R.id.cv_practice:
+                if(mIOnItemClickedListener != null){
+                    mIOnItemClickedListener.onItemClick(3);
+                }
+                dismiss();
+                break;
         }
     }
 
-//    @Override
+    //    @Override
 //    public void setOnDismissListener(@Nullable OnDismissListener listener) {
 //        super.setOnDismissListener(listener);
 //        homeFragment.onResume();
 //    }
+    public interface IOnItemClickedListener {
+        void onItemClick(int type);
+    }
 }

@@ -86,6 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_weight="1"
+            android:visibility="gone"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -127,7 +128,7 @@
                 android:layout_marginTop="2dp"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="@string/txt_dic"
+                android:text="@string/txt_hint_search"
                 android:textColor="@color/sl_text_tab"
                 android:textSize="@dimen/text_small_12"
                 font:fontText="fonts/sf_pro_display_regular.otf" />

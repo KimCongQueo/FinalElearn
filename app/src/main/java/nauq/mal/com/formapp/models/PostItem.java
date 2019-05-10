@@ -2,76 +2,114 @@ package nauq.mal.com.formapp.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class PostItem implements Serializable {
-    @SerializedName("id")
-    private int idPost;
-    @SerializedName("question")
-    private String question ="";
-    private String answerA;
-    private String answerB;
-    private String answerC;
-    private String answerD;
-    @SerializedName("numLike")
-    private int numLike = -1;
-    @SerializedName("numComment")
-    private int numComment = -1;
+    @SerializedName("_id")
+    private String idPost;
+    @SerializedName("imgs")
+    private ArrayList<String> imgs;
+    @SerializedName("profile")
+    private User userPost;
+    @SerializedName("content")
+    private String content ="";
+    @SerializedName("created")
+    private long created = -1;
+//    @SerializedName("numLike")
+//    private int numLike = -1;
+//    @SerializedName("numComment")
+//    private int numComment = -1;
+    @SerializedName("comments")
+    private int comments = -1;
+    @SerializedName("likes")
+    private int likes = -1;
+    @SerializedName("isBookmark")
     private Boolean checkBookmark = false;
+    @SerializedName("isLike")
     private Boolean checkLike = false;
     private String feedBack = "";
     private String report = "";
+    private ArrayList<File> mDataFile;
     public PostItem() {
     }
 
-    public PostItem(int idPost, String question) {
-        this.idPost = idPost;
-        this.question = question;
+    public ArrayList<File> getmDataFile() {
+        return mDataFile;
     }
 
-    public PostItem(int idPost, String question, int numLike, int numComment) {
-        this.idPost = idPost;
-        this.question = question;
-        this.numLike = numLike;
-        this.numComment = numComment;
+    public void setmDataFile(ArrayList<File> mDataFile) {
+        this.mDataFile = mDataFile;
     }
 
-    public PostItem(int idPost, String question, String answerA, String answerB, String answerC, String answerD) {
-        this.idPost = idPost;
-        this.question = question;
-        this.answerA = answerA;
-        this.answerB = answerB;
-        this.answerC = answerC;
-        this.answerD = answerD;
+    public PostItem(int i, String s) {
     }
 
-    public PostItem(String question, String answerA, String answerB, String answerC, String answerD) {
-        this.question = question;
-        this.answerA = answerA;
-        this.answerB = answerB;
-        this.answerC = answerC;
-        this.answerD = answerD;
+    public ArrayList<String> getImgs() {
+        return imgs;
     }
 
-    public int getNumLike() {
-        return numLike;
+    public void setImgs(ArrayList<String> imgs) {
+        this.imgs = imgs;
     }
 
-    public void setNumLike(int numLike) {
-        this.numLike = numLike;
+    public User getUserPost() {
+        return userPost;
     }
 
-    public int getNumComment() {
-        return numComment;
+    public void setUserPost(User userPost) {
+        this.userPost = userPost;
     }
 
-    public void setNumComment(int numComment) {
-        this.numComment = numComment;
+    public String getContent() {
+        return content;
     }
 
-    public PostItem(int idPost) {
-        this.idPost = idPost;
+    public void setContent(String content) {
+        this.content = content;
     }
+
+    public long getCreated() {
+        return created;
+    }
+
+    public void setCreated(long created) {
+        this.created = created;
+    }
+
+    public int getComments() {
+        return comments;
+    }
+
+    public void setComments(int comments) {
+        this.comments = comments;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+//
+//    public int getNumLike() {
+//        return numLike;
+//    }
+//
+//    public void setNumLike(int numLike) {
+//        this.numLike = numLike;
+//    }
+//
+//    public int getNumComment() {
+//        return numComment;
+//    }
+//
+//    public void setNumComment(int numComment) {
+//        this.numComment = numComment;
+//    }
+
 
     public String getFeedBack() {
         return feedBack;
@@ -89,52 +127,12 @@ public class PostItem implements Serializable {
         this.report = report;
     }
 
-    public int getIdPost() {
+    public String getIdPost() {
         return idPost;
     }
 
-    public void setIdPost(int idPost) {
+    public void setIdPost(String idPost) {
         this.idPost = idPost;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
-    public String getAnswerA() {
-        return answerA;
-    }
-
-    public void setAnswerA(String answerA) {
-        this.answerA = answerA;
-    }
-
-    public String getAnswerB() {
-        return answerB;
-    }
-
-    public void setAnswerB(String answerB) {
-        this.answerB = answerB;
-    }
-
-    public String getAnswerC() {
-        return answerC;
-    }
-
-    public void setAnswerC(String answerC) {
-        this.answerC = answerC;
-    }
-
-    public String getAnswerD() {
-        return answerD;
-    }
-
-    public void setAnswerD(String answerD) {
-        this.answerD = answerD;
     }
 
     public Boolean getCheckBookmark() {

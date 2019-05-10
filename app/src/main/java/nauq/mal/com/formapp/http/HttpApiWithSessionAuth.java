@@ -58,10 +58,10 @@ public class HttpApiWithSessionAuth extends AbstractHttpApi {
 
     private Map<String, String> createHeaderWithAuthorization() {
         Map<String, String> map = new LinkedHashMap<>();
-        map.put("Content-Type", "application/json");
-        map.put("Accept", "application/json");
+//        map.put("Content-Type", "application/json");
+//        map.put("Accept", "application/json");
         if (hasCredentials()) {
-            map.put("Authorization", mToken);
+            map.put("token", mToken);
             return map;
         } else {
             return null;
@@ -121,7 +121,81 @@ public class HttpApiWithSessionAuth extends AbstractHttpApi {
 //        }
 
     }
+    public JSONObject doHttpPut(@NonNull String requestUrl, JSONObject jsonObject)
+            throws ApiException, JSONException, IOException {
+//        try {
+        JSONObject jsonResult = new JSONObject(executeHttpPut(requestUrl, createHeaderWithAuthorization(), jsonObject));
+        try {
+            if(jsonResult.getInt("ErrorCode") == Constants.FAILURE_SESSION_EXPIRED){
+                if(getNewSession()) {
+                    return new JSONObject(executeHttpPost(requestUrl, createHeaderWithAuthorization(), jsonObject));
+                } else {
+                    return jsonResult;
+                }
+            }
+        } catch (JSONException ex){
 
+        }
+        return jsonResult;
+//        } catch (ApiException e) {
+//            if (e.getErrorCode() == Constants.FAILURE_SESSION_EXPIRED) {
+//                getNewSession();
+//                return new JSONObject(executeHttpPost(requestUrl, createHeaderWithAuthorization(), jsonObject));
+//            } else
+//                throw e;
+//        }
+
+    }
+    @Override
+    public JSONObject doHttpPut(@NonNull String requestUrl, String jsonObject)
+            throws ApiException, JSONException, IOException {
+//        try {
+        JSONObject jsonResult = new JSONObject(executeHttpPut(requestUrl, createHeaderWithAuthorization(), jsonObject));
+        try {
+            if(jsonResult.getInt("ErrorCode") == Constants.FAILURE_SESSION_EXPIRED){
+                if(getNewSession()) {
+                    return new JSONObject(executeHttpPost(requestUrl, createHeaderWithAuthorization(), jsonObject));
+                } else {
+                    return jsonResult;
+                }
+            }
+        } catch (JSONException ex){
+
+        }
+        return jsonResult;
+//        } catch (ApiException e) {
+//            if (e.getErrorCode() == Constants.FAILURE_SESSION_EXPIRED) {
+//                getNewSession();
+//                return new JSONObject(executeHttpPost(requestUrl, createHeaderWithAuthorization(), jsonObject));
+//            } else
+//            throw e;
+//        }
+    }
+    @Override
+    public JSONObject doHttpDelete(@NonNull String requestUrl, String jsonObject)
+            throws ApiException, JSONException, IOException {
+//        try {
+        JSONObject jsonResult = new JSONObject(executeHttpDelete(requestUrl, createHeaderWithAuthorization(), jsonObject));
+        try {
+            if(jsonResult.getInt("ErrorCode") == Constants.FAILURE_SESSION_EXPIRED){
+                if(getNewSession()) {
+                    return new JSONObject(executeHttpPost(requestUrl, createHeaderWithAuthorization(), jsonObject));
+                } else {
+                    return jsonResult;
+                }
+            }
+        } catch (JSONException ex){
+
+        }
+        return jsonResult;
+//        } catch (ApiException e) {
+//            if (e.getErrorCode() == Constants.FAILURE_SESSION_EXPIRED) {
+//                getNewSession();
+//                return new JSONObject(executeHttpPost(requestUrl, createHeaderWithAuthorization(), jsonObject));
+//            } else
+//            throw e;
+//        }
+    }
     @Override
     public JSONObject doHttpPost(@NonNull String requestUrl, Map<String, String> params)
             throws ApiException, JSONException, IOException {
@@ -288,7 +362,7 @@ public class HttpApiWithSessionAuth extends AbstractHttpApi {
         map.put("Accept", "application/json");
         if (hasCredentials()) {
             map.put("Lang", "en");
-            map.put("Authorization", mToken);
+            map.put("token", mToken);
         }
         JSONObject jsonResult = new JSONObject(executeHttpMultipartImages(requestUrl, map, params, files));
         try {
@@ -300,7 +374,7 @@ public class HttpApiWithSessionAuth extends AbstractHttpApi {
                     map.put("Accept", "application/json");
                     if (hasCredentials()) {
                         map.put("Lang", "en");
-                        map.put("Authorization", mToken);
+                        map.put("token", mToken);
                     }
                     return new JSONObject(executeHttpMultipartImages(requestUrl, map, params, files));
                 } else {
@@ -333,13 +407,15 @@ public class HttpApiWithSessionAuth extends AbstractHttpApi {
         }
         User mUser = new Gson().fromJson(userJson, User.class);
         Map<String, String> params = new HashMap<>();
-        params.put("userName", SharedPreferenceHelper.getInstance(mContext).get(Constants.PREF_USERNAME));
+        params.put("username", SharedPreferenceHelper.getInstance(mContext).get(Constants.PREF_USERNAME));
         params.put("password", SharedPreferenceHelper.getInstance(mContext).get(Constants.PREF_PASSWORD_NAME));
         String data = executeHttpPost(TaskApi.TASK_WS + TaskApi.LOGIN_API, null,params);
         LoginOutput output = new Gson().fromJson(data.toString(), LoginOutput.class);
         if(output.success) {
-            mPrefHelper.set(Constants.PREF_SESSION_ID, output.result.tokenType + " " + output.result.accessToken);
-            mToken = output.result.tokenType + " " + output.result.accessToken;
+//            mPrefHelper.set(Constants.PREF_SESSION_ID, output.result.tokenType + " " + output.result.accessToken);
+//            mToken = output.result.tokenType + " " + output.result.accessToken;
+            mPrefHelper.set(Constants.PREF_SESSION_ID,output.token);
+            mToken = output.token;
         } else {
             return false;
         }

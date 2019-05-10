@@ -6,6 +6,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,7 @@ import nauq.mal.com.formapp.api.exception.ApiException;
 public abstract class BaseFragment extends Fragment {
     protected View mView;
     protected int mViewId;
+    protected Fragment mFragment = null;
     protected Context mContext;
     protected ProgressDialog mProgressDialog;
     private MaterialDialog mAlertDialog;
@@ -144,5 +147,24 @@ public abstract class BaseFragment extends Fragment {
             // TODO: handle exception
         } catch (Exception e) {
         }
+    }
+    protected void setNewPageChild(Fragment fragment) {
+        try {
+            FragmentManager childFragmentManager = getChildFragmentManager();
+            if (childFragmentManager.getBackStackEntryCount() > 0) {
+                for (int i = 0; i< childFragmentManager.getBackStackEntryCount(); i++) {
+                    childFragmentManager.popBackStackImmediate();
+                }
+            }
+            FragmentTransaction transaction = childFragmentManager.beginTransaction();
+            transaction.replace(R.id.frame_main, fragment, "currentFragment");
+            transaction.commitAllowingStateLoss();
+            if (mFragment != null)
+                transaction.remove(mFragment);
+            mFragment = fragment;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

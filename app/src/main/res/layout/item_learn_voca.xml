@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_topic"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:layout_marginBottom="@dimen/card_corner_10"
+    android:orientation="horizontal">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tvWords"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_corner_10"
+            android:layout_marginTop="@dimen/card_corner_10"
+            android:text="@string/txt_word"
+            android:textColor="#000"
+            android:textSize="@dimen/text_medium_15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSpell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Spell"
+            android:textColor="@color/icon_color"
+            android:textSize="@dimen/text_medium_15"
+            app:layout_constraintStart_toStartOf="@id/tvWords"
+            app:layout_constraintTop_toBottomOf="@id/tvWords" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tvMeaning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_corner_10"
+            android:maxLines="2"
+            android:text="@string/txt_meaning"
+            android:textColor="#000"
+            android:textSize="@dimen/text_medium_15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layout_bookmark"
+        android:layout_width="80dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/img_bookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_corner_10"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_bookmark_deff"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+</LinearLayout>

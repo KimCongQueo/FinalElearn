@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_app"
+    android:background="#fff"
     android:orientation="vertical">
     <include
         layout="@layout/navigation_header_layout"
@@ -26,6 +26,9 @@
             android:id="@+id/et_comment"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:paddingStart="@dimen/card_corner_10"
+            android:layout_marginStart="@dimen/card_corner_10"
+            android:paddingEnd="@dimen/card_corner_10"
             android:layout_marginEnd="@dimen/card_corner_10"
             android:layout_height="wrap_content"
             android:hint="@string/txt_enter_comment"/>
@@ -35,7 +38,7 @@
             android:layout_height="48dp"
             android:contentDescription="@null"
             android:padding="@dimen/card_corner_10"
-            android:src="@drawable/ic_send" />
+            android:src="@drawable/ic_send_blue" />
 
     </LinearLayout>
 

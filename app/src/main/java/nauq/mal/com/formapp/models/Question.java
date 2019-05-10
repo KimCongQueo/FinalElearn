@@ -6,55 +6,51 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Question implements Serializable {
-    @SerializedName("id")
-    private int id;
-    @SerializedName("image")
-    private String image;
-    @SerializedName("question")
-    private String question;
-    @SerializedName("arrAns")
-    private ArrayList<Answer> arrAns;
+    @SerializedName("_id")
+    private String id;
+    @SerializedName("imgs")
+    private ArrayList<String> imgs;
+    @SerializedName("content")
+    private String content;
+    @SerializedName("answers")
+    private ArrayList<String> answers;
+    private ArrayList<Answer> arrAns = new ArrayList<>();
 
-    public Question(int id, String image, ArrayList<Answer> arrAns) {
-        this.id = id;
-        this.image = image;
-        this.arrAns = arrAns;
-    }
-
-    public Question(String question) {
-        this.question = question;
-    }
-
-    public Question(String question, ArrayList<Answer> arrAns) {
-        this.question = question;
-        this.arrAns = arrAns;
-    }
 
     public Question() {
     }
 
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getImage() {
-        return image;
+
+    public ArrayList<String> getImgs() {
+        return imgs;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImgs(ArrayList<String> imgs) {
+        this.imgs = imgs;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public ArrayList<String> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(ArrayList<String> answers) {
+        this.answers = answers;
     }
 
     public ArrayList<Answer> getArrAns() {
@@ -64,6 +60,4 @@ public class Question implements Serializable {
     public void setArrAns(ArrayList<Answer> arrAns) {
         this.arrAns = arrAns;
     }
-
-
 }

@@ -48,7 +48,6 @@
                         android:background="@drawable/bg_avatar"
                         android:padding="7dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/ic_ava"
                         round_image:corner_radius="100dp" />
 
                     <ImageView
@@ -72,7 +71,7 @@
                     android:layout_marginTop="5dp"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="Trần Hồng Quân"
+                    android:text="Username"
                     android:textColor="#fff"
                     android:textSize="@dimen/text_size_22"
                     font:fontText="fonts/sf_pro_display_regular.otf" />

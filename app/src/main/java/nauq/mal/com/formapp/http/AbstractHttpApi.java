@@ -58,13 +58,54 @@ public abstract class AbstractHttpApi implements HttpApi {
         String response = executeHttpRequest(connection);
         return response;
     }
-
+    protected String executeHttpPut(@NonNull String requestUrl, @Nullable Map<String, String> headers,
+                                    String jsonObject)
+            throws JSONException, ApiException, IOException {
+        HttpURLConnection connection = prepareConnection(requestUrl);
+        connection.setRequestMethod("PUT");
+        connection.setDoOutput(true);
+        connection.setDoInput(true);
+        connection.setRequestProperty("Content-Type", "application/json; charset=" + CHARSET);
+        connection.setRequestProperty("Content-Length", "" + Integer.toString(jsonObject.getBytes().length));
+        if (headers != null) addHeaderFields(connection, headers);
+        if (jsonObject != null) {
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(connection.getOutputStream(), CHARSET), true);
+            writer.append(jsonObject);
+            writer.flush();
+            writer.close();
+        }
+        String response = executeHttpRequest(connection);
+        return response;
+    }
+    protected String executeHttpDelete(@NonNull String requestUrl, @Nullable Map<String, String> headers,
+                                    String jsonObject)
+            throws JSONException, ApiException, IOException {
+        HttpURLConnection connection = prepareConnection(requestUrl);
+        connection.setRequestMethod("DELETE");
+        connection.setDoOutput(true);
+        connection.setDoInput(true);
+        connection.setRequestProperty("Content-Type", "application/json; charset=" + CHARSET);
+        connection.setRequestProperty("Content-Length", "" + Integer.toString(jsonObject.getBytes().length));
+        if (headers != null) addHeaderFields(connection, headers);
+        if (jsonObject != null) {
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(connection.getOutputStream(), CHARSET), true);
+            writer.append(jsonObject);
+            writer.flush();
+            writer.close();
+        }
+        String response = executeHttpRequest(connection);
+        return response;
+    }
     protected String executeHttpPost(@NonNull String requestUrl, @Nullable Map<String, String> headers,
                                      JSONObject jsonObject)
             throws JSONException, ApiException, IOException {
         return executeHttpPost(requestUrl, headers, jsonObject.toString());
     }
-
+    protected String executeHttpPut(@NonNull String requestUrl, @Nullable Map<String, String> headers,
+                                     JSONObject jsonObject)
+            throws JSONException, ApiException, IOException {
+        return executeHttpPut(requestUrl, headers, jsonObject.toString());
+    }
     protected String executeHttpPost(@NonNull String requestUrl, @Nullable Map<String, String> headers,
                                      Map<String, String> params)
             throws JSONException, ApiException, IOException {
@@ -172,6 +213,7 @@ public abstract class AbstractHttpApi implements HttpApi {
         connection.setRequestProperty("Cache-Control", "no-cache");
         connection.setRequestProperty("Accept", "*/*");
         connection.setRequestProperty("Content-Type", "multipart/form-data; charset=" + CHARSET + "; boundary=" + BOUNDARY);
+        connection.setRequestProperty("photo", "multipart/form-data; charset=" + CHARSET + "; boundary=" + BOUNDARY);
         if (headers != null) addHeaderFields(connection, headers);
         OutputStream outputStream = connection.getOutputStream();
         DataOutputStream dataStream = new DataOutputStream(outputStream);
@@ -274,7 +316,7 @@ public abstract class AbstractHttpApi implements HttpApi {
 
     private void addFileImagesParts(DataOutputStream stream, OutputStream outputStream, ArrayList<File> images) throws IOException {
         for (File item : images) {
-                addFilePart(stream, outputStream, "ImageFiles", item);
+                addFilePart(stream, outputStream, "photo", item);
         }
     }
 

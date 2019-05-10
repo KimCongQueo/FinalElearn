@@ -42,4 +42,9 @@
         android:layout_marginStart="@dimen/card_corner_10"
         android:layout_marginEnd="@dimen/card_corner_10"
         android:text="@string/txt_send_ques"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rc_img"
+        android:layout_margin="@dimen/card_corner_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

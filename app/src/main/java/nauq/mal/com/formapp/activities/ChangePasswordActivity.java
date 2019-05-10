@@ -7,13 +7,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import nauq.mal.com.formapp.R;
+import nauq.mal.com.formapp.api.ApiListener;
+import nauq.mal.com.formapp.api.models.BaseOutput;
+import nauq.mal.com.formapp.api.models.PasswordOutput;
+import nauq.mal.com.formapp.api.objects.PasswordInput;
+import nauq.mal.com.formapp.tasks.BaseTask;
+import nauq.mal.com.formapp.tasks.ChangePasswordTaskk;
 import nauq.mal.com.formapp.utils.Constants;
 import nauq.mal.com.formapp.utils.SharedPreferenceHelper;
 
-public class ChangePasswordActivity extends BaseActivity implements View.OnClickListener {
+public class ChangePasswordActivity extends BaseActivity implements View.OnClickListener, ApiListener {
     private Button btnCancel, btnAgree;
     private ImageView imgBack;
-    public static int RQ_ENTER_CODE = 9898;
     private EditText mEdtPassword, mEdtPasswordConfirm, mEdtPasswordOld;
     @Override
     protected int initLayout() {
@@ -33,6 +38,7 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void addListener() {
+        imgBack.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
         btnAgree.setOnClickListener(this);
     }
@@ -44,43 +50,56 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.btn_cancel:
-//                setResult(RESULT_OK);
                 finish();
                 break;
             case R.id.btn_agree:
                 String password = mEdtPassword.getText().toString();
                 String passwordConfirm = mEdtPasswordConfirm.getText().toString();
                 String passwordOld = mEdtPasswordOld.getText().toString();
-                String currentPass = SharedPreferenceHelper.getInstance(this).get(Constants.PREF_PASSWORD_NAME);
-//                if (passwordOld.length() == 0) {
-//                    toast(getString(R.string.txt_warning_plz_input_password_old));
-//                    return;
-//                }
-//                if(!passwordOld.equals(currentPass)){
-//                    toast(getString(R.string.txt_new_password_old_incorrect));
-//                    return;
-//                }
+                if (passwordOld.length() == 0) {
+                    toast(getString(R.string.txt_warning_plz_input_old_password));
+                    return;
+                }
                 if (password.length() == 0) {
                     toast(getString(R.string.txt_warning_plz_input_new_password));
                     return;
                 }
-                if (password.length() < 6) {
-                    toast(getString(R.string.txt_pass_least_6));
+                if (passwordConfirm.length() == 0) {
+                    toast(getString(R.string.txt_warning_plz_input_confirm_password));
                     return;
                 }
-                if(password.equals(passwordOld)){
-                    toast(getString(R.string.txt_pass_invalid_2));
-                    return;
-                }
-                if (!password.equals(passwordConfirm)) {
-                    toast(getString(R.string.txt_confirm_password_incorrect));
-                    return;
-                }
-
-//                showLoading(true);
-//                new ChangePasswordTask(this, passwordOld, password, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                finish();
+                showLoading(true);
+                PasswordInput passwordInput = new PasswordInput();
+                passwordInput.setOldPass(passwordOld);
+                passwordInput.setNewPass(password);
+                passwordInput.setConfirmPass(passwordConfirm);
+                new ChangePasswordTaskk(this, passwordInput, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
         }
+    }
+
+    @Override
+    public void onConnectionOpen(BaseTask task) {
+
+    }
+
+    @Override
+    public void onConnectionSuccess(BaseTask task, Object data) {
+        if(task instanceof ChangePasswordTaskk){
+            PasswordOutput output = (PasswordOutput) data;
+            showLoading(false);
+            if(output.success){
+                finish();
+            } else {
+                if(output.msg != null && output.msg != ""){
+                    showAlert(output.msg);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onConnectionError(BaseTask task, Exception exception) {
+
     }
 }

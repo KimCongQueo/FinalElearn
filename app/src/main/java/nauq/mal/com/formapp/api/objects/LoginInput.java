@@ -6,13 +6,13 @@ import com.google.gson.annotations.SerializedName;
  * Created by dcmen on 9/30/2016.
  */
 public class LoginInput {
-    @SerializedName("userName")
-    public String userName;
+    @SerializedName("username")
+    public String username;
     @SerializedName("password")
     public String password;
 
-    public LoginInput(String userName, String password){
-        this.userName = userName;
+    public LoginInput(String username, String password){
+        this.username = username;
         this.password = password;
     }
 }

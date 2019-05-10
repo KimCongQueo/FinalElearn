@@ -71,6 +71,10 @@ public class StringUtils {
         SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("hh:mm aaa, dd/MM/yyyy");
         return mSimpleDateFormat.format(new Date(timestamp - getOffsetInMillis()));
     }
+    public static String getFullDate2StringFromNotTimeZone(long timestamp) {
+        SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("hh:mm aaa, dd/MM/yyyy");
+        return mSimpleDateFormat.format(new Date(timestamp));
+    }
 
     public static String getFullDate2StringFromTimestampNotTimeZone(long timestamp) {
         SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("dd/MM/yyyy, hh:mm aaa");

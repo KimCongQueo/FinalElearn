@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@drawable/bg_loginn"
+    android:layout_height="match_parent">
+    <com.jackandphantom.circularimageview.CircleImage
+        android:id="@+id/img_cuong"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="@dimen/margin_top_btn_login"
+        android:layout_marginTop="@dimen/card_corner_10"
+        android:src="@drawable/ic_avatar_default"
+        app:layout_constraintBottom_toTopOf="@id/devider1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/name_cuong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_corner_10"
+        android:text="Nguyen Huu Cuong (Front-end, Leader)"
+        android:textColor="@color/text_color"
+        app:layout_constraintStart_toEndOf="@id/img_cuong"
+        app:layout_constraintTop_toTopOf="@id/img_cuong" />
+
+    <TextView
+        android:id="@+id/email_cuong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/width_status_sm"
+        android:text="Email: cuongnguyenhuu97@gmail.com"
+        android:textColor="@color/text_color"
+        app:layout_constraintStart_toStartOf="@id/name_cuong"
+        app:layout_constraintTop_toBottomOf="@id/name_cuong" />
+
+    <View
+        android:id="@+id/devider1"
+        android:layout_width="200dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/card_corner_10"
+        android:background="@color/icon_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/img_quan"
+        app:layout_constraintTop_toBottomOf="@id/img_cuong" />
+
+    <com.jackandphantom.circularimageview.CircleImage
+        android:id="@+id/img_quan"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="@dimen/card_corner_10"
+        android:src="@drawable/ic_avatar"
+        app:layout_constraintBottom_toTopOf="@id/devider2"
+        app:layout_constraintStart_toStartOf="@id/img_cuong"
+        app:layout_constraintTop_toBottomOf="@id/devider1" />
+
+    <TextView
+        android:id="@+id/name_quan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_corner_10"
+        android:text="Tran Hong Quan (Mobile)"
+        android:textColor="@color/text_color"
+        app:layout_constraintStart_toEndOf="@id/img_quan"
+        app:layout_constraintTop_toTopOf="@id/img_quan" />
+
+    <TextView
+        android:id="@+id/email_quan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/width_status_sm"
+        android:text="Email: thulinhmasoi97@gmail.com"
+        android:textColor="@color/text_color"
+        app:layout_constraintStart_toStartOf="@id/name_quan"
+        app:layout_constraintTop_toBottomOf="@id/name_quan" />
+
+    <View
+        android:id="@+id/devider2"
+        android:layout_width="200dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/card_corner_10"
+        android:background="@color/icon_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/img_hong"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_quan" />
+
+    <com.jackandphantom.circularimageview.CircleImage
+        android:id="@+id/img_hong"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toTopOf="@id/devider3"
+        android:layout_marginTop="@dimen/card_corner_10"
+        android:src="@drawable/ic_avatar_default"
+        app:layout_constraintStart_toStartOf="@id/img_cuong"
+        app:layout_constraintTop_toBottomOf="@id/devider2" />
+
+    <TextView
+        android:id="@+id/name_hong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_corner_10"
+        android:text="Tu Anh Hong (Server)"
+        android:textColor="@color/text_color"
+        app:layout_constraintStart_toEndOf="@id/img_hong"
+        app:layout_constraintTop_toTopOf="@id/img_hong" />
+
+    <TextView
+        android:id="@+id/email_hong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/width_status_sm"
+        android:text="Email: aqua.hong.97@gmail.com"
+        android:textColor="@color/text_color"
+        app:layout_constraintStart_toStartOf="@id/name_hong"
+        app:layout_constraintTop_toBottomOf="@id/name_hong" />
+
+    <View
+        android:id="@+id/devider3"
+        android:layout_width="200dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/card_corner_10"
+        android:background="@color/icon_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/img_nhan"
+        app:layout_constraintTop_toBottomOf="@id/img_hong" />
+
+    <com.jackandphantom.circularimageview.CircleImage
+        android:id="@+id/img_nhan"
+        android:layout_width="70dp"
+        app:layout_constraintBottom_toTopOf="@id/devider4"
+        android:layout_height="70dp"
+        android:layout_marginTop="@dimen/card_corner_10"
+        android:src="@drawable/ic_avatar_default"
+        app:layout_constraintStart_toStartOf="@id/img_cuong"
+        app:layout_constraintTop_toBottomOf="@id/devider3" />
+
+    <TextView
+        android:id="@+id/name_nhan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_corner_10"
+        android:text="Tra Anh Nhan (Wed admin)"
+        android:textColor="@color/text_color"
+        app:layout_constraintStart_toEndOf="@id/img_nhan"
+        app:layout_constraintTop_toTopOf="@id/img_nhan" />
+
+    <TextView
+        android:id="@+id/email_nhan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/width_status_sm"
+        android:text="Email: traanhnhan@gmail.com"
+        android:textColor="@color/text_color"
+        app:layout_constraintStart_toStartOf="@id/name_nhan"
+        app:layout_constraintTop_toBottomOf="@id/name_nhan" />
+
+    <View
+        android:id="@+id/devider4"
+        android:layout_width="200dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/card_corner_10"
+        android:background="@color/icon_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/img_minh"
+        app:layout_constraintTop_toBottomOf="@id/img_nhan" />
+
+    <com.jackandphantom.circularimageview.CircleImage
+        android:id="@+id/img_minh"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/card_corner_10"
+        android:src="@drawable/ic_avatar_default"
+        app:layout_constraintStart_toStartOf="@id/img_cuong"
+        app:layout_constraintTop_toBottomOf="@id/devider4" />
+
+    <TextView
+        android:id="@+id/name_minh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_corner_10"
+        android:text="Tran Cong Minh (Tester)"
+        android:textColor="@color/text_color"
+        app:layout_constraintStart_toEndOf="@id/img_minh"
+        app:layout_constraintTop_toTopOf="@id/img_minh" />
+
+    <TextView
+        android:id="@+id/email_minh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/width_status_sm"
+        android:text="Email: nguyencongminh@gmail.com"
+        android:textColor="@color/text_color"
+        app:layout_constraintStart_toStartOf="@id/name_minh"
+        app:layout_constraintTop_toBottomOf="@id/name_minh" />
+</android.support.constraint.ConstraintLayout>

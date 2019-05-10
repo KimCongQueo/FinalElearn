@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/imgAttached"
+        android:contentDescription="@null"
+        android:layout_margin="@dimen/card_corner_10"
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+    <ImageView
+        android:id="@+id/imgDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_delete_button"
+        android:contentDescription="@null"
+        android:layout_gravity="end"
+        android:padding="5dp"
+        android:layout_margin="@dimen/card_corner_10"/>
+</FrameLayout>
