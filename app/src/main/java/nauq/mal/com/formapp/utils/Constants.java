@@ -35,6 +35,7 @@ public class Constants {
     public static final String LOGIN_GOOGLE = "LOGIN_GOOGLE";
     public static final String PREF_IMG_ID = "PREF_IMG_ID";
     public static final String FAKE_TOKEN = "abcxyz";
+    public static final String TAGS = "TAGS";
     public static final String LINK_IMG = "https://elearn-anhhong.c9users.io/images/";
 
 

@@ -11,6 +11,8 @@ public class PostItem implements Serializable {
     private String idPost;
     @SerializedName("imgs")
     private ArrayList<String> imgs;
+    @SerializedName("tags")
+    private ArrayList<String> tags;
     @SerializedName("profile")
     private User userPost;
     @SerializedName("content")
@@ -44,6 +46,14 @@ public class PostItem implements Serializable {
     }
 
     public PostItem(int i, String s) {
+    }
+
+    public ArrayList<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
     }
 
     public ArrayList<String> getImgs() {

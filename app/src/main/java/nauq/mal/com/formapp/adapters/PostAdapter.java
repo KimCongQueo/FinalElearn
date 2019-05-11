@@ -23,6 +23,7 @@ import nauq.mal.com.formapp.R;
 import nauq.mal.com.formapp.fragments.home.HomeFragment;
 import nauq.mal.com.formapp.interfaces.ReturnTextFromDialog;
 import nauq.mal.com.formapp.models.PostItem;
+import nauq.mal.com.formapp.models.Tags;
 import nauq.mal.com.formapp.utils.Constants;
 import nauq.mal.com.formapp.utils.SharedPreferenceHelper;
 import nauq.mal.com.formapp.utils.StringUtils;
@@ -36,6 +37,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>
     private IOnItemClickedListener mIOnItemClickedListener;
     private List<PostItem> mData;
     private ArrayList<String> mListImg;
+    private List<Tags> tags;
     private Boolean checkFeedback = false;
     private String textFromDialog;
 
@@ -47,7 +49,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>
         this.mContext = context;
         this.mData = PostItem;
     }
-
+    public PostAdapter(Context context, List<PostItem> PostItem, List<Tags> tags) {
+        this.mContext = context;
+        this.mData = PostItem;
+        this.tags = tags;
+    }
     public Boolean getCheckFeedback() {
         return checkFeedback;
     }
@@ -114,6 +120,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>
             holder.layoutLike.setVisibility(View.GONE);
             holder.layoutBookmark.setVisibility(View.GONE);
         }
+        holder.mAdapterTag = new TagAdapter(mContext, item.getTags(), tags);
+        holder.rcTag.setAdapter(holder.mAdapterTag);
         holder.mAdapter = new LoadImgPostAdapter(mContext, mListImg);
         holder.mAdapter.setOnItemClickListener(new LoadImgPostAdapter.IOnItemClickedListener() {
             @Override
@@ -184,6 +192,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>
         } else {
             holder.imgReport.setVisibility(View.GONE);
         }
+
     }
 
 
@@ -211,7 +220,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>
         TextView tvNumCmt;
         TextView tvCreated;
         RecyclerView rcImg;
+        RecyclerView rcTag;
         LoadImgPostAdapter mAdapter;
+        TagAdapter mAdapterTag;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -230,6 +241,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>
             tvLike = itemView.findViewById(R.id.tv_like);
             tvBookmark = itemView.findViewById(R.id.tv_bookmark);
             imgReport = itemView.findViewById(R.id.img_report_fb);
+            rcTag = itemView.findViewById(R.id.rc_tag);
+            rcTag.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
             rcImg = itemView.findViewById(R.id.rc_img_post);
 //            rcImg.setLayoutManager(new GridLayoutManager(mContext, 3));
             rcImg.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));

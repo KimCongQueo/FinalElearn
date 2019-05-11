@@ -44,11 +44,16 @@ import nauq.mal.com.formapp.R;
 import nauq.mal.com.formapp.adapters.AddImageAdapter;
 import nauq.mal.com.formapp.api.ApiListener;
 import nauq.mal.com.formapp.api.models.BaseOutput;
+import nauq.mal.com.formapp.api.models.GetTagsOutput;
 import nauq.mal.com.formapp.api.models.ImgOutput;
+import nauq.mal.com.formapp.models.Tags;
 import nauq.mal.com.formapp.tasks.AddPostTask;
 import nauq.mal.com.formapp.tasks.BaseTask;
+import nauq.mal.com.formapp.tasks.GetTagsTask;
 import nauq.mal.com.formapp.tasks.UploadImageTask;
 import nauq.mal.com.formapp.utils.Constants;
+import nauq.mal.com.formapp.utils.SharedPreferenceHelper;
+import nauq.mal.com.formapp.views.CustomChooseTagDialog;
 
 public class AddQuesActivity extends BaseActivity implements View.OnClickListener, ApiListener {
     public static final int SELECT_PICTURE = 101;
@@ -62,7 +67,9 @@ public class AddQuesActivity extends BaseActivity implements View.OnClickListene
     private Uri mImageCaptureUri;
     private String myImagePath;
     private String myImagePathCrop;
+    private Button btnTag;
     private AddImageAdapter mAdapter;
+    private ArrayList<Tags> mDataTag = new ArrayList<>();
     @Override
     protected int initLayout() {
         return R.layout.activity_add_ques;
@@ -75,10 +82,16 @@ public class AddQuesActivity extends BaseActivity implements View.OnClickListene
         btnAttachImg = findViewById(R.id.btn_attach_img);
         btnSEnd = findViewById(R.id.btn_send_ques);
         imgBack = findViewById(R.id.imv_nav_left);
+        btnTag = findViewById(R.id.btn_tag);
         rcImg = findViewById(R.id.rc_img);
         rcImg.setLayoutManager(new GridLayoutManager(this, 3));
         mAdapter =  new AddImageAdapter(this, mData);
         rcImg.setAdapter(mAdapter);
+        loadTag();
+    }
+    private void loadTag() {
+        showLoading(true);
+        new GetTagsTask(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override
@@ -86,6 +99,7 @@ public class AddQuesActivity extends BaseActivity implements View.OnClickListene
         btnAttachImg.setOnClickListener(this);
         btnSEnd.setOnClickListener(this);
         imgBack.setOnClickListener(this);
+        btnTag.setOnClickListener(this);
         mAdapter.setOnItemClickListener(new AddImageAdapter.IOnItemClickedListener() {
             @Override
             public void onItemDelete(int position) {
@@ -107,7 +121,7 @@ public class AddQuesActivity extends BaseActivity implements View.OnClickListene
             case R.id.btn_send_ques:
                 showLoading(true);
                 if(etQuestion.getText().toString().length() >= 10) {
-                    new AddPostTask(this, etQuestion.getText().toString(), mDataIdImg, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    new AddPostTask(this, etQuestion.getText().toString(), mDataIdImg, mDataTag, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 } else {
                     Toast.makeText(this, "Question is shorter than the minimum allowed length (10)",Toast.LENGTH_LONG).show();
                     showLoading(false);
@@ -117,6 +131,16 @@ public class AddQuesActivity extends BaseActivity implements View.OnClickListene
 
             case R.id.imv_nav_left:
                 finish();
+                break;
+            case R.id.btn_tag:
+                CustomChooseTagDialog dialog = new CustomChooseTagDialog(this, mDataTag);
+                dialog.show();
+                dialog.setmIOnItemClickedListener(new CustomChooseTagDialog.IOnItemClickedListener() {
+                    @Override
+                    public void onItemClickDone(boolean done) {
+                    }
+                });
+                break;
         }
     }
 
@@ -146,6 +170,14 @@ public class AddQuesActivity extends BaseActivity implements View.OnClickListene
             } else {
                 showLoading(false);
                 showAlert(R.string.err_unexpected_exception);
+            }
+        }
+        if (task instanceof GetTagsTask) {
+            showLoading(false);
+            GetTagsOutput output = (GetTagsOutput) data;
+            if (output.success) {
+                mDataTag.addAll(output.tags);
+                SharedPreferenceHelper.getInstance(this).set(Constants.TAGS, mDataTag.toString());
             }
         }
     }

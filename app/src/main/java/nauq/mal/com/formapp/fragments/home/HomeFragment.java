@@ -32,13 +32,16 @@ import nauq.mal.com.formapp.adapters.PostAdapter;
 import nauq.mal.com.formapp.api.ApiListener;
 import nauq.mal.com.formapp.api.models.BaseOutput;
 import nauq.mal.com.formapp.api.models.GetNewfeedOutput;
+import nauq.mal.com.formapp.api.models.GetTagsOutput;
 import nauq.mal.com.formapp.fragments.BaseFragment;
 import nauq.mal.com.formapp.models.PostItem;
+import nauq.mal.com.formapp.models.Tags;
 import nauq.mal.com.formapp.tasks.BaseTask;
 import nauq.mal.com.formapp.tasks.BookmarkTask;
 import nauq.mal.com.formapp.tasks.DeleteBookmarkTask;
 import nauq.mal.com.formapp.tasks.DislikeTask;
 import nauq.mal.com.formapp.tasks.GetNewFeedTask;
+import nauq.mal.com.formapp.tasks.GetTagsTask;
 import nauq.mal.com.formapp.tasks.LikeTask;
 import nauq.mal.com.formapp.utils.Constants;
 import nauq.mal.com.formapp.utils.SharedPreferenceHelper;
@@ -53,6 +56,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private PostAdapter mAdapter;
     private LinearLayout btnAddQuestion;
+    private ArrayList<Tags> mDataTag = new ArrayList<>();
     private int pastVisiblesItems, visibleItemCount, totalItemCount;
 
     @Override
@@ -76,9 +80,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipeRefreshLayout);
         rcPost = mView.findViewById(R.id.rc_post);
         rcPost.setLayoutManager(mLinearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-        mAdapter = new PostAdapter(mContext, mData);
+        mAdapter = new PostAdapter(mContext, mData, mDataTag);
         rcPost.setAdapter(mAdapter);
 //        loadData();
+        loadTag();
+    }
+
+    private void loadTag() {
+        showLoading(true);
+        new GetTagsTask(mContext, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void loadData() {
@@ -239,6 +249,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             BaseOutput output = (BaseOutput) data;
             if (output.success) {
 
+            }
+        } if (task instanceof GetTagsTask) {
+            showLoading(false);
+            GetTagsOutput output = (GetTagsOutput) data;
+            if (output.success) {
+                mDataTag.addAll(output.tags);
             }
         }
     }

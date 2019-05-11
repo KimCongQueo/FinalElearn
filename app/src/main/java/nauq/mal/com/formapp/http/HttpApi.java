@@ -13,9 +13,6 @@ import java.util.Map;
 
 import nauq.mal.com.formapp.api.exception.ApiException;
 
-/**
- * Created by dcmen on 08/31/16.
- */
 public interface HttpApi {
 
     /**

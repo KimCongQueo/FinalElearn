@@ -27,9 +27,7 @@ import nauq.mal.com.formapp.api.exception.ApiException;
 import nauq.mal.com.formapp.utils.StringUtils;
 
 
-/**
- * Created by dcmen on 08/31/16.
- */
+
 public abstract class AbstractHttpApi implements HttpApi {
     public static final String CHARSET = "UTF-8";
     public static final int CONNECT_TIME_OUT = 25000;

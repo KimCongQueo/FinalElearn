@@ -30,6 +30,17 @@
         android:layout_marginEnd="@dimen/card_corner_10"
         android:text="@string/txt_attach_image"/>
     <nauq.mal.com.formapp.views.CustomFontButton
+        android:id="@+id/btn_tag"
+        android:padding="5dp"
+        android:background="@drawable/bg_button"
+        android:layout_width="100dp"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="@dimen/card_corner_10"
+        android:layout_marginEnd="@dimen/card_corner_10"
+        android:text="Tags"/>
+    <nauq.mal.com.formapp.views.CustomFontButton
         android:id="@+id/btn_send_ques"
         android:layout_width="match_parent"
         android:textSize="16sp"

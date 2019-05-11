@@ -27,6 +27,7 @@ import nauq.mal.com.formapp.api.models.GetPostOutput;
 import nauq.mal.com.formapp.api.models.GetPracticeOnlyTopicOutput;
 import nauq.mal.com.formapp.api.models.GetPracticeOutput;
 import nauq.mal.com.formapp.api.models.GetProfileOutput;
+import nauq.mal.com.formapp.api.models.GetTagsOutput;
 import nauq.mal.com.formapp.api.models.GetTopicOutput;
 import nauq.mal.com.formapp.api.models.GetWordsOutput;
 import nauq.mal.com.formapp.api.models.ImgOutput;
@@ -37,6 +38,7 @@ import nauq.mal.com.formapp.api.models.ValidateCodeOutput;
 import nauq.mal.com.formapp.api.objects.LoginInput;
 import nauq.mal.com.formapp.api.objects.PasswordInput;
 import nauq.mal.com.formapp.http.HttpApiWithSessionAuth;
+import nauq.mal.com.formapp.models.Tags;
 import nauq.mal.com.formapp.models.User;
 import nauq.mal.com.formapp.utils.Constants;
 import nauq.mal.com.formapp.utils.StringUtils;
@@ -63,6 +65,7 @@ public class TaskApi {
     public static final String CATEGORY = "category";
     public static final String BOOKMARK = "bookmark";
     public static final String QUIZ = "quiz";
+    public static final String TAGS = "tag";
     public static final String QUIZ_ARR = "quiz?size=20";
 
 
@@ -156,13 +159,14 @@ public class TaskApi {
     }
 
 
-    public GetCategoriesOutput getTopic(String id)  throws ApiException, JSONException, IOException {
+    public GetCategoriesOutput getTopic(String id) throws ApiException, JSONException, IOException {
         JSONObject data = mHttpApi.doHttpGetWithHeader("https://elearn-anhhong.c9users.io/api/category/"
                 + id + "/children");
         GetCategoriesOutput output = mGson.fromJson(data.toString(), GetCategoriesOutput.class);
         return output;
     }
-    public GetWordsOutput getWords(String id)  throws ApiException, JSONException, IOException {
+
+    public GetWordsOutput getWords(String id) throws ApiException, JSONException, IOException {
         JSONObject data = mHttpApi.doHttpGetWithHeader("https://elearn-anhhong.c9users.io/api/category/"
                 + id + "/words");
         GetWordsOutput output = mGson.fromJson(data.toString(), GetWordsOutput.class);
@@ -207,11 +211,18 @@ public class TaskApi {
         return output;
     }
 
-    public BaseOutput addPost(String content, ArrayList<String> mData) throws ApiException, JSONException, IOException {
+    public BaseOutput addPost(String content, ArrayList<String> mData, ArrayList<Tags> mDataTag) throws ApiException, JSONException, IOException {
         JSONObject contentTmp = new JSONObject();
         JSONArray array = new JSONArray(mData);
+        ArrayList<String> mTag = new ArrayList<>();
+        for (int i = 0; i < mDataTag.size(); i++) {
+            if(mDataTag.get(i).isChecked()){
+                mTag.add(mDataTag.get(i).getId());
+            }
+        }
         contentTmp.put("content", content);
         contentTmp.put("imgs", array);
+        contentTmp.put("tags", new JSONArray(mTag));
         JSONObject data = mHttpApi.doHttpPost(getFullUrl(POST), contentTmp);
         BaseOutput output = mGson.fromJson(data.toString(), BaseOutput.class);
         return output;
@@ -310,6 +321,7 @@ public class TaskApi {
         BaseOutput output = mGson.fromJson(data.toString(), BaseOutput.class);
         return output;
     }
+
     public BaseOutput bookmarkWord(String idPost) throws ApiException, JSONException, IOException {
         JSONObject contentTmp = new JSONObject();
         contentTmp.put("word", idPost);
@@ -325,6 +337,7 @@ public class TaskApi {
         BaseOutput output = mGson.fromJson(data.toString(), BaseOutput.class);
         return output;
     }
+
     public GetBookmarkOutput getBookmarks(int mStart) throws ApiException, JSONException, IOException {
 //        JSONObject data = mHttpApi.doHttpGetWithHeader("https://elearn-anhhong.c9users.io/api/bookmark"
 //                 + "?page=" + mStart + "&limit=" + Constants.LIMIT_ITEMS);
@@ -364,7 +377,7 @@ public class TaskApi {
         return output;
     }
 
-    public GetGrammarOutput getGrammar(String id)  throws ApiException, JSONException, IOException {
+    public GetGrammarOutput getGrammar(String id) throws ApiException, JSONException, IOException {
         JSONObject data = mHttpApi.doHttpGetWithHeader("https://elearn-anhhong.c9users.io/api/category/"
                 + id + "/grammars");
         GetGrammarOutput output = mGson.fromJson(data.toString(), GetGrammarOutput.class);
@@ -383,13 +396,19 @@ public class TaskApi {
     public GetPracticeOnlyTopicOutput getPracticeMulti(ArrayList<String> id) throws ApiException, JSONException, IOException {
         String[] temp = new String[id.size()];
         String api = getFullUrl(QUIZ_ARR);
-        for(int i=0;i<id.size();i++){
+        for (int i = 0; i < id.size(); i++) {
             temp[i] = id.get(i);
             api += "&categories=" + id.get(i);
         }
         JSONObject data = mHttpApi.doHttpGetWithHeader(api);
 //        JSONObject data = mHttpApi.doHttpGet(String.format(getFullUrl(QUIZ_ARR), 20, temp));
         GetPracticeOnlyTopicOutput output = mGson.fromJson(data.toString(), GetPracticeOnlyTopicOutput.class);
+        return output;
+    }
+
+    public GetTagsOutput getTags() throws ApiException, JSONException, IOException {
+        JSONObject data = mHttpApi.doHttpGetWithHeader(getFullUrl(TAGS));
+        GetTagsOutput output = mGson.fromJson(data.toString(), GetTagsOutput.class);
         return output;
     }
 }

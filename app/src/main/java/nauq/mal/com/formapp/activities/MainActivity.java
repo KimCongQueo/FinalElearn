@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -25,6 +26,9 @@ import java.util.ArrayList;
 
 import nauq.mal.com.formapp.R;
 import nauq.mal.com.formapp.adapters.MenuItemAdapter;
+import nauq.mal.com.formapp.api.ApiListener;
+import nauq.mal.com.formapp.api.models.GetProfileOutput;
+import nauq.mal.com.formapp.api.models.GetTagsOutput;
 import nauq.mal.com.formapp.fragments.bookmark.BookmarkFragment;
 import nauq.mal.com.formapp.fragments.ContactUsFragment;
 import nauq.mal.com.formapp.fragments.dictionary.SearchFragment;
@@ -32,11 +36,15 @@ import nauq.mal.com.formapp.fragments.menulearn.CourseFragment;
 import nauq.mal.com.formapp.fragments.home.HomeFragment;
 import nauq.mal.com.formapp.fragments.profile.ProfileFragment;
 import nauq.mal.com.formapp.models.MenuItem;
+import nauq.mal.com.formapp.models.Tags;
 import nauq.mal.com.formapp.models.User;
+import nauq.mal.com.formapp.tasks.BaseTask;
+import nauq.mal.com.formapp.tasks.GetProfileTask;
+import nauq.mal.com.formapp.tasks.GetTagsTask;
 import nauq.mal.com.formapp.utils.Constants;
 import nauq.mal.com.formapp.utils.SharedPreferenceHelper;
 
-public class MainActivity extends BaseActivity implements DrawerLayout.DrawerListener, MenuItemAdapter.IOnMenuItemClicklistener, View.OnClickListener {
+public class MainActivity extends BaseActivity implements DrawerLayout.DrawerListener, MenuItemAdapter.IOnMenuItemClicklistener, View.OnClickListener, ApiListener {
 
 
     public enum MENU_ITEM {MENU_HOME, MENU_LOGOUT, MENU_BOOKMARKS, MENU_CONTACT, MENU_SETTING, MENU_PROFILE}
@@ -45,6 +53,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     private ImageView imgAvatar, mImvBack;
     private DrawerLayout mDrawerLayout;
     private TextView tvUsername;
+    private User mUser = new User();
     private DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true)
             .considerExifParams(true)
             .showImageForEmptyUri(R.drawable.ic_profile_menu).showImageOnFail(R.drawable.ic_profile_menu)
@@ -59,6 +68,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     private EditText etSearch;
     private TextView tvTitle;
     private String type;
+    private ArrayList<Tags> mDataTag = new ArrayList<>();
 
     @Override
     protected int initLayout() {
@@ -109,11 +119,13 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
         setTitle(getString(R.string.txt_home));
         setNewPage(new HomeFragment());
-        loadTag();
+//        loadTag();
         addListener();
     }
 
     private void loadTag() {
+        showLoading(true);
+        new GetTagsTask(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override
@@ -162,7 +174,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        loadProfile();
+        new GetProfileTask(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override
@@ -218,7 +230,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         } else if (type.equals(getString(R.string.txt_profile)) || type.equals(getString(R.string.txt_contact))
                 || type.equals(getString(R.string.txt_bookmark))) {
             mDrawerLayout.openDrawer(GravityCompat.START);
-        } else if(type.equals(getString(R.string.txt_home))){
+        } else if (type.equals(getString(R.string.txt_home))) {
             super.onBackPressed();
         }
     }
@@ -309,5 +321,39 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         }
     }
 
+    @Override
+    public void onConnectionOpen(BaseTask task) {
+
+    }
+
+    @Override
+    public void onConnectionSuccess(BaseTask task, Object data) {
+        if (task instanceof GetTagsTask) {
+            showLoading(false);
+            GetTagsOutput output = (GetTagsOutput) data;
+            if (output.success) {
+                mDataTag.addAll(output.tags);
+                SharedPreferenceHelper.getInstance(this).set(Constants.TAGS, mDataTag.toString());
+            }
+        } if (task instanceof GetProfileTask) {
+            showLoading(false);
+            GetProfileOutput output = (GetProfileOutput) data;
+            if (output.success) {
+                mUser = output.user;
+                loadProfile();
+                SharedPreferenceHelper.getInstance(this).set(Constants.PREF_USERNAME,mUser.getUsername());
+                SharedPreferenceHelper.getInstance(this).set(Constants.PREF_USER_PROFILE, new Gson().toJson(mUser));
+                SharedPreferenceHelper.getInstance(this).set(Constants.PREF_PERSON_NAME, mUser.getName());
+                loadProfile();
+            } else {
+                showAlert(getString(R.string.txt_warning_login_fail));
+            }
+        }
+    }
+
+    @Override
+    public void onConnectionError(BaseTask task, Exception exception) {
+
+    }
 
 }
